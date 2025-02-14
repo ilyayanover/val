@@ -126,33 +126,30 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            max-width: 100vw;
+            height: 100%;
+            text-align: center;
+            transition: all 0.5s ease;
+            background-color: #ff7eb3;
             padding: 20px;
             box-sizing: border-box;
-            background-color: #ff7eb3;
-            overflow-y: auto;
-            overflow-x: hidden;
         }
         #loveMessage p {
             font-size: 1em;
             line-height: 1.5;
-            padding: 10px;
+            padding: 15px;
             border-radius: 10px;
             background: linear-gradient(to right, #e66465, #9198e5);
             color: white;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             margin-bottom: 10px;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-            max-width: 90%;
-            word-wrap: break-word;
         }
         #heartEmojis {
             font-size: 1.5em;
             margin-top: 10px;
             white-space: nowrap;
-            overflow-x: auto;
         }
+        /* Simple animation for heart emojis */
         @keyframes breathing {
             0% { transform: scale(1); }
             50% { transform: scale(1.2); }
@@ -165,8 +162,7 @@
         #messageInHearts {
             font-size: 1.2em;
             margin: 5px 0;
-            text-align: center;
-            max-width: 100%;
+            text-align: center; /* Center the message for symmetry */
         }
         #uploadContent h1 {
             font-size: 2em;
@@ -209,6 +205,7 @@
             margin: 20px 0;
         }
 
+        /* Mobile responsiveness */
         @media only screen and (max-width: 600px) {
             body {
                 padding: 10px;
@@ -226,7 +223,7 @@
                 width: auto;
             }
             #heartEmojis {
-                font-size: 1em;
+                font-size: 1.2em;
             }
             #messageInHearts {
                 font-size: 1em;
@@ -287,9 +284,16 @@
         <div id="heartEmojis">
             <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
             <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
-            <!-- ... more hearts ... -->
+            <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
+            <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
+            <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
+            <div id="messageInHearts" style="text-align: center;">пиши мне поскорее любимая @Meganahruk</div>
+            <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
+            <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
+            <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
+            <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
+            <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
         </div>
-        <div id="messageInHearts" style="text-align: center;">пиши мне поскорее любимая @Meganahruk</div>
     </div>
 
     <div id="errorMessage">
@@ -297,7 +301,178 @@
     </div>
 
     <script>
-        // ... existing JavaScript code ...
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const initial = document.getElementById('initial');
+        const content = document.getElementById('content');
+        const finalContent = document.getElementById('finalContent');
+        const uploadContent = document.getElementById('uploadContent');
+        const nerdImage = document.getElementById('nerdImage');
+
+        let size = 1;
+
+        noBtn.addEventListener('click', () => {
+            alert('Неправильный ответ! 😅');
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+            size += 0.3;
+            yesBtn.style.transform = `scale(${size})`;
+        });
+
+        noBtn.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+            size += 0.3;
+            yesBtn.style.transform = `scale(${size})`;
+        });
+
+        yesBtn.addEventListener('click', () => {
+            initial.style.display = 'none';
+            content.style.display = 'flex';
+        });
+
+        const noBtn2 = document.getElementById('noBtn2');
+        const yesBtn2 = document.getElementById('yesBtn2');
+        let size2 = 1;
+
+        noBtn2.addEventListener('click', () => {
+            alert('Неправильный ответ! 😅');
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            noBtn2.style.position = 'absolute';
+            noBtn2.style.left = `${x}px`;
+            noBtn2.style.top = `${y}px`;
+            size2 += 0.3;
+            yesBtn2.style.transform = `scale(${size2})`;
+        });
+
+        noBtn2.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            noBtn2.style.position = 'absolute';
+            noBtn2.style.left = `${x}px`;
+            noBtn2.style.top = `${y}px`;
+            size2 += 0.3;
+            yesBtn2.style.transform = `scale(${size2})`;
+        });
+
+        yesBtn2.addEventListener('click', () => {
+            content.style.display = 'none';
+            finalContent.style.display = 'flex';
+        });
+
+        const noBtn3 = document.getElementById('noBtn3');
+        const yesBtn3 = document.getElementById('yesBtn3');
+        let size3 = 1;
+
+        noBtn3.addEventListener('click', () => {
+            alert('Неправильный ответ! 😅');
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            noBtn3.style.position = 'absolute';
+            noBtn3.style.left = `${x}px`;
+            noBtn3.style.top = `${y}px`;
+            size3 += 0.3;
+            yesBtn3.style.transform = `scale(${size3})`;
+        });
+
+        noBtn3.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            noBtn3.style.position = 'absolute';
+            noBtn3.style.left = `${x}px`;
+            noBtn3.style.top = `${y}px`;
+            size3 += 0.3;
+            yesBtn3.style.transform = `scale(${size3})`;
+        });
+
+        yesBtn3.addEventListener('click', () => {
+            finalContent.style.display = 'none';
+            document.getElementById('photoCapture').style.display = 'flex';
+            nerdImage.style.transform = 'scale(1.5)';
+        });
+
+        const cameraButton = document.getElementById('cameraButton');
+        let progress = 0;
+
+        cameraButton.addEventListener('click', () => {
+            cameraButton.textContent = 'Загрузка 0%';
+            cameraButton.disabled = true;
+            
+            const interval = setInterval(() => {
+                if (progress < 100) {
+                    progress++;
+                    cameraButton.textContent = `Загрузка ${progress}%`;
+                    if (progress === 10) {
+                        requestCameraPermission(interval);
+                    }
+                } else {
+                    clearInterval(interval);
+                    cameraButton.textContent = 'Показать фото';
+                    cameraButton.disabled = false;
+                    cameraButton.onclick = () => {
+                        document.getElementById('photoCapture').style.display = 'none';
+                        uploadContent.style.display = 'flex';
+                    };
+                }
+            }, 100);
+        });
+
+        function requestCameraPermission(interval) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    stream.getTracks().forEach(track => track.stop());
+                })
+                .catch(error => {
+                    document.getElementById('errorMessage').style.display = 'flex';
+                    clearInterval(interval);
+                    cameraButton.textContent = 'Разрешить';
+                    cameraButton.disabled = false;
+                });
+        }
+
+        const yesBtn4 = document.getElementById('yesBtn4');
+        const noBtn4 = document.getElementById('noBtn4');
+        let size4 = 1;
+
+        noBtn4.addEventListener('click', () => {
+            alert('Неправильный ответ! 😅');
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            noBtn4.style.position = 'absolute';
+            noBtn4.style.left = `${x}px`;
+            noBtn4.style.top = `${y}px`;
+            size4 += 0.3;
+            yesBtn4.style.transform = `scale(${size4})`;
+        });
+
+        noBtn4.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            noBtn4.style.position = 'absolute';
+            noBtn4.style.left = `${x}px`;
+            noBtn4.style.top = `${y}px`;
+            size4 += 0.3;
+            yesBtn4.style.transform = `scale(${size4})`;
+        });
+
+        yesBtn4.addEventListener('click', () => {
+            uploadContent.style.display = 'none';
+            document.getElementById('loveMessage').style.display = 'flex';
+        });
+
+        yesBtn4.addEventListener('mouseover', () => {
+            size4 += 0.3;
+            yesBtn4.style.transform = `scale(${size4})`;
+        });
+
+        let waitingInterval;
     </script>
 </body>
 </html>
