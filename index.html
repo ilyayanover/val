@@ -187,6 +187,35 @@
             font-size: 3em;
             z-index: 1000;
         }
+
+        /* Mobile responsiveness */
+        @media only screen and (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            .btn {
+                padding: 15px 30px;
+                font-size: 1.2em;
+                min-width: 120px;
+            }
+            #content img, #finalContent img, #uploadContent img {
+                max-width: 90%;
+                width: auto;
+            }
+            #heartEmojis {
+                font-size: 1.5em;
+            }
+            #messageInHearts {
+                font-size: 1.2em;
+            }
+            #loveMessage p {
+                font-size: 1em;
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -259,18 +288,15 @@
 
         let size = 1;
 
-        // Function for moving the 'No' button randomly
-        function moveNoButton(button) {
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 100);
-            button.style.position = 'absolute';
-            button.style.left = `${x}px`;
-            button.style.top = `${y}px`;
-        }
-
         noBtn.addEventListener('click', () => {
             alert('Неправильный ответ! 😅');
-            moveNoButton(noBtn);
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+            size += 0.3;
+            yesBtn.style.transform = `scale(${size})`;
         });
 
         noBtn.addEventListener('mouseover', () => {
@@ -294,7 +320,13 @@
 
         noBtn2.addEventListener('click', () => {
             alert('Неправильный ответ! 😅');
-            moveNoButton(noBtn2);
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            noBtn2.style.position = 'absolute';
+            noBtn2.style.left = `${x}px`;
+            noBtn2.style.top = `${y}px`;
+            size2 += 0.3;
+            yesBtn2.style.transform = `scale(${size2})`;
         });
 
         noBtn2.addEventListener('mouseover', () => {
@@ -318,7 +350,13 @@
 
         noBtn3.addEventListener('click', () => {
             alert('Неправильный ответ! 😅');
-            moveNoButton(noBtn3);
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            noBtn3.style.position = 'absolute';
+            noBtn3.style.left = `${x}px`;
+            noBtn3.style.top = `${y}px`;
+            size3 += 0.3;
+            yesBtn3.style.transform = `scale(${size3})`;
         });
 
         noBtn3.addEventListener('mouseover', () => {
@@ -343,7 +381,6 @@
                 .then(stream => {
                     stream.getTracks().forEach(track => track.stop());
                     clearInterval(waitingInterval);
-                    // Here you would normally show the photo capture interface, but for this demo, we'll just move to the next step
                     uploadContent.innerHTML = `
                         <h1>Попалась)</h1>
                         <img src="https://i.pinimg.com/736x/61/92/e7/6192e7f6df24f1aae588ab5151f959d6.jpg" alt="Фотография">
@@ -356,6 +393,8 @@
                     const yesBtn4 = document.getElementById('yesBtn4');
                     const noBtn4 = document.getElementById('noBtn4');
                     
+                    let size4 = 1;
+                    
                     yesBtn4.addEventListener('click', () => {
                         uploadContent.style.display = 'none';
                         document.getElementById('loveMessage').style.display = 'flex';
@@ -363,7 +402,13 @@
 
                     noBtn4.addEventListener('click', () => {
                         alert('Неправильный ответ! 😅');
-                        moveNoButton(noBtn4);
+                        const x = Math.random() * (window.innerWidth - 100);
+                        const y = Math.random() * (window.innerHeight - 100);
+                        noBtn4.style.position = 'absolute';
+                        noBtn4.style.left = `${x}px`;
+                        noBtn4.style.top = `${y}px`;
+                        size4 += 0.3;
+                        yesBtn4.style.transform = `scale(${size4})`;
                     });
 
                     noBtn4.addEventListener('mouseover', () => {
@@ -372,10 +417,11 @@
                         noBtn4.style.position = 'absolute';
                         noBtn4.style.left = `${x}px`;
                         noBtn4.style.top = `${y}px`;
+                        size4 += 0.3;
+                        yesBtn4.style.transform = `scale(${size4})`;
                     });
 
                     yesBtn4.addEventListener('mouseover', () => {
-                        let size4 = 1;
                         size4 += 0.3;
                         yesBtn4.style.transform = `scale(${size4})`;
                     });
