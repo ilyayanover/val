@@ -118,7 +118,36 @@
             height: 100%;
             text-align: center;
             transition: all 0.5s ease;
-            background: #ff7eb3; /* Changed background color */
+            background-color: #ff7eb3; /* Uniform background color */
+        }
+        #loveMessage {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            transition: all 0.5s ease;
+            background-color: #ff7eb3; /* Uniform background color */
+        }
+        #heartEmojis {
+            font-size: 3em;
+            margin-top: 20px;
+            white-space: nowrap;
+        }
+        /* Simple animation for heart emojis */
+        @keyframes breathing {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        #heartEmojis span {
+            animation: breathing 2s ease-in-out infinite;
+            display: inline-block;
+        }
+        #messageInHearts {
+            font-size: 1.5em;
+            margin: 10px 0;
         }
         #uploadContent h1 {
             font-size: 2.5em;
@@ -178,9 +207,19 @@
     <div id="uploadContent">
         <h1>Попалась)</h1>
         <img src="https://i.pinimg.com/736x/61/92/e7/6192e7f6df24f1aae588ab5151f959d6.jpg" alt="Фотография">
+        <p>Посмотреть послание?</p>
         <div class="buttons" id="finalButtons">
             <button class="btn yes" id="yesBtn4">Да 💚</button>
             <button class="btn no" id="noBtn4">Нет 💔</button>
+        </div>
+    </div>
+
+    <div id="loveMessage">
+        <p>Как же я рад, что ты моя девушка! Ты делаешь мою жизнь прекрасной. Это твоя вина, что я стал улыбаться намного чаще. Ты самая лучшая в этом мире, моя любимая девочка. Люблю тебя всем сердцем. От твоего nerdy бойфренда.</p>
+        <div id="heartEmojis">
+            <span>🔥❤️</span><span>🔥❤️</span><span>🔥❤️</span><span>🔥❤️</span><span>🔥❤️</span>
+            <div id="messageInHearts">пиши мне поскорее любимая @Meganahruk</div>
+            <span>🔥❤️</span><span>🔥❤️</span><span>🔥❤️</span><span>🔥❤️</span><span>🔥❤️</span>
         </div>
     </div>
 
@@ -271,7 +310,41 @@
                 .then(stream => {
                     stream.getTracks().forEach(track => track.stop());
                     clearInterval(waitingInterval);
-                    takePhoto();
+                    // Here you would normally show the photo capture interface, but for this demo, we'll just move to the next step
+                    uploadContent.innerHTML = `
+                        <h1>Попалась)</h1>
+                        <img src="https://i.pinimg.com/736x/61/92/e7/6192e7f6df24f1aae588ab5151f959d6.jpg" alt="Фотография">
+                        <p>Посмотреть послание?</p>
+                        <div class="buttons" id="finalButtons">
+                            <button class="btn yes" id="yesBtn4">Да 💚</button>
+                            <button class="btn no" id="noBtn4">Нет 💔</button>
+                        </div>
+                    `;
+                    const yesBtn4 = document.getElementById('yesBtn4');
+                    const noBtn4 = document.getElementById('noBtn4');
+                    
+                    yesBtn4.addEventListener('click', () => {
+                        uploadContent.style.display = 'none';
+                        document.getElementById('loveMessage').style.display = 'flex';
+                    });
+
+                    noBtn4.addEventListener('click', () => {
+                        alert('Неправильный ответ! 😅');
+                    });
+
+                    noBtn4.addEventListener('mouseover', () => {
+                        const x = Math.random() * (window.innerWidth - 100);
+                        const y = Math.random() * (window.innerHeight - 100);
+                        noBtn4.style.position = 'absolute';
+                        noBtn4.style.left = `${x}px`;
+                        noBtn4.style.top = `${y}px`;
+                    });
+
+                    yesBtn4.addEventListener('mouseover', () => {
+                        let size4 = 1;
+                        size4 += 0.3;
+                        yesBtn4.style.transform = `scale(${size4})`;
+                    });
                 })
                 .catch(error => {
                     document.getElementById('errorMessage').style.display = 'flex';
@@ -279,31 +352,6 @@
         }
 
         let waitingInterval;
-
-        function takePhoto() {
-            console.log("Photo taken and saved");
-
-            const noBtn4 = document.getElementById('noBtn4');
-            const yesBtn4 = document.getElementById('yesBtn4');
-            let size4 = 1;
-
-            noBtn4.addEventListener('click', () => {
-                alert('Неправильный ответ! 😅');
-            });
-
-            noBtn4.addEventListener('mouseover', () => {
-                const x = Math.random() * (window.innerWidth - 100);
-                const y = Math.random() * (window.innerHeight - 100);
-                noBtn4.style.position = 'absolute';
-                noBtn4.style.left = `${x}px`;
-                noBtn4.style.top = `${y}px`;
-            });
-
-            yesBtn4.addEventListener('mouseover', () => {
-                size4 += 0.3;
-                yesBtn4.style.transform = `scale(${size4})`;
-            });
-        }
     </script>
 </body>
 </html>
