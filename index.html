@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -102,6 +102,13 @@
             font-size: 1.5em;
             margin-top: 30px;
         }
+        #finalContent img {
+            width: 200px;
+            height: auto;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+        }
         #uploadContent {
             display: none;
             flex-direction: column;
@@ -117,29 +124,11 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
         #uploadContent img {
-            width: 300px;
+            width: 400px; /* Increased size */
             height: auto;
             border-radius: 20px;
             margin: 30px 0;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-        }
-        #uploadBtn {
-            position: relative;
-            overflow: hidden;
-        }
-        #uploadBtn::after {
-            content: attr(data-progress) '%';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #fff;
-            font-size: 1.2em;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        #uploadBtn.progress::after {
-            opacity: 1;
         }
     </style>
 </head>
@@ -163,6 +152,7 @@
 
     <div id="finalContent">
         <h1>Ура твой нерди бойфренд рад</h1>
+        <img src="https://i.pinimg.com/736x/78/99/72/78997212af9611e515c0fc4d0f6ead72.jpg" alt="Твой нерди бойфренд">
         <h2>Продолжим просмотр? 💖</h2>
         <div class="buttons">
             <button class="btn yes" id="yesBtn3">Да 💚</button>
@@ -173,7 +163,7 @@
     <div id="uploadContent">
         <h1>Я тебя фотографирую</h1>
         <img src="https://i.pinimg.com/736x/e6/02/ef/e602ef7d5316481022fcb9b712054823.jpg" alt="Фотография">
-        <button class="btn" id="uploadBtn" data-progress="0">Загрузка 0%</button>
+        <button class="btn" id="uploadBtn">Загрузка 0%</button>
     </div>
 
     <script>
@@ -255,17 +245,14 @@
 
         function simulateUpload() {
             let progress = 0;
-            uploadBtn.classList.add('progress');
 
             function updateProgress() {
                 if (progress < 100) {
                     progress += 1;
-                    uploadBtn.dataset.progress = progress;
                     uploadBtn.textContent = `Загрузка ${progress}%`;
                     setTimeout(updateProgress, 100); // 100ms per 1% for 10 seconds total
                 } else {
                     uploadBtn.textContent = 'Посмотреть фото';
-                    uploadBtn.classList.remove('progress');
                 }
             }
 
