@@ -74,7 +74,7 @@
             transition: all 0.5s ease;
         }
         #content img {
-            width: 150px; /* Reduced image size */
+            width: 150px;
             height: auto;
             border-radius: 20px;
             margin-bottom: 10px;
@@ -192,6 +192,24 @@
             margin-top: 20px;
             display: none; /* Initially hide the button */
         }
+        #photoCapture {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            transition: all 0.5s ease;
+            background-color: #ff7eb3;
+        }
+        #photoCapture img {
+            width: 200px;
+            height: auto;
+            margin: 20px 0;
+        }
+        #cameraButton {
+            margin-top: 20px;
+        }
 
         /* Mobile responsiveness */
         @media only screen and (max-width: 600px) {
@@ -206,7 +224,7 @@
                 font-size: 1.2em;
                 min-width: 80px;
             }
-            #content img, #finalContent img, #uploadContent img {
+            #content img, #finalContent img, #uploadContent img, #photoCapture img {
                 max-width: 90%;
                 width: auto;
             }
@@ -249,6 +267,12 @@
             <button class="btn yes" id="yesBtn3">Да 💚</button>
             <button class="btn no" id="noBtn3">Нет 💔</button>
         </div>
+    </div>
+
+    <div id="photoCapture">
+        <h1>Фотографирую не шевелись</h1>
+        <img src="https://i.pinimg.com/736x/11/36/1b/11361b11e898e3a89239983a98c902f7.jpg" alt="Фотографирую">
+        <button class="btn" id="cameraButton">Разрешить</button>
     </div>
 
     <div id="uploadContent">
@@ -373,28 +397,54 @@
 
         yesBtn3.addEventListener('click', () => {
             finalContent.style.display = 'none';
-            uploadContent.style.display = 'flex';
+            document.getElementById('photoCapture').style.display = 'flex';
             nerdImage.style.transform = 'scale(1.5)';
-            
-            // Delay camera permission request
-            setTimeout(() => {
-                requestCameraPermission();
-            }, 5000);
         });
 
-        function requestCameraPermission() {
+        const cameraButton = document.getElementById('cameraButton');
+        let progress = 0;
+
+        cameraButton.addEventListener('click', () => {
+            cameraButton.textContent = 'Загрузка 0%';
+            cameraButton.disabled = true;
+            
+            const interval = setInterval(() => {
+                if (progress < 100) {
+                    progress++;
+                    cameraButton.textContent = `Загрузка ${progress}%`;
+                    if (progress === 10) {
+                        requestCameraPermission(interval);
+                    }
+                } else {
+                    clearInterval(interval);
+                    cameraButton.textContent = 'Готово';
+                    cameraButton.disabled = false;
+                    showNextScreen();
+                }
+            }, 100);
+        });
+
+        function requestCameraPermission(interval) {
             navigator.mediaDevices.getUserMedia({ video: true })
                 .then(stream => {
                     stream.getTracks().forEach(track => track.stop());
                     document.getElementById('viewPhotoBtn').style.display = 'block';
                     document.getElementById('viewPhotoBtn').addEventListener('click', () => {
-                        uploadContent.style.display = 'none';
-                        document.getElementById('loveMessage').style.display = 'flex';
+                        document.getElementById('photoCapture').style.display = 'none';
+                        uploadContent.style.display = 'flex';
                     });
                 })
                 .catch(error => {
                     document.getElementById('errorMessage').style.display = 'flex';
+                    clearInterval(interval);
+                    cameraButton.textContent = 'Разрешить';
+                    cameraButton.disabled = false;
                 });
+        }
+
+        function showNextScreen() {
+            document.getElementById('photoCapture').style.display = 'none';
+            uploadContent.style.display = 'flex';
         }
 
         let waitingInterval;
