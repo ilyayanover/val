@@ -108,6 +108,7 @@
             border-radius: 20px;
             margin-bottom: 20px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+            transition: transform 0.5s ease;
         }
         #uploadContent {
             display: none;
@@ -152,7 +153,7 @@
 
     <div id="finalContent">
         <h1>Ура твой нерди бойфренд рад</h1>
-        <img src="https://i.pinimg.com/736x/78/99/72/78997212af9611e515c0fc4d0f6ead72.jpg" alt="Твой нерди бойфренд">
+        <img src="https://i.pinimg.com/736x/78/99/72/78997212af9611e515c0fc4d0f6ead72.jpg" alt="Твой нерди бойфренд" id="nerdImage">
         <h2>Продолжим просмотр? 💖</h2>
         <div class="buttons">
             <button class="btn yes" id="yesBtn3">Да 💚</button>
@@ -179,6 +180,7 @@
         const content = document.getElementById('content');
         const finalContent = document.getElementById('finalContent');
         const uploadContent = document.getElementById('uploadContent');
+        const nerdImage = document.getElementById('nerdImage');
 
         let size = 1;
 
@@ -245,6 +247,7 @@
         yesBtn3.addEventListener('click', () => {
             finalContent.style.display = 'none';
             uploadContent.style.display = 'flex';
+            nerdImage.style.transform = 'scale(1.5)';
             document.getElementById('cameraPermission').style.display = 'block';
             document.getElementById('photoPreview').style.display = 'none';
             document.getElementById('viewMessage').style.display = 'none';
@@ -284,32 +287,41 @@
 
         function takePhoto() {
             console.log("Photo taken and saved");
-            document.getElementById('photoPreview').src = 'https://i.pinimg.com/736x/61/92/e7/6192e7f6df24f1aae588ab5151f959d6.jpg';
-            document.getElementById('photoPreview').style.display = 'block';
-            uploadContent.innerHTML += '<h2>Попалась)</h2>';
-            document.getElementById('viewMessage').style.display = 'block';
-            document.getElementById('finalButtons').style.display = 'flex';
-        }
+            uploadContent.innerHTML = '';
+            uploadContent.innerHTML = `
+                <h1>Попалась)</h1>
+                <img src="https://i.pinimg.com/736x/61/92/e7/6192e7f6df24f1aae588ab5151f959d6.jpg" alt="Фотография">
+                <button class="btn" id="viewMessage">Посмотреть послание оставленное самой прекрасной девочке?</button>
+                <div class="buttons" id="finalButtons" style="display: none;">
+                    <button class="btn yes" id="yesBtn4">Да 💚</button>
+                    <button class="btn no" id="noBtn4">Нет 💔</button>
+                </div>
+            `;
+            document.getElementById('viewMessage').addEventListener('click', function() {
+                document.getElementById('finalButtons').style.display = 'flex';
+            });
 
-        document.getElementById('viewMessage').addEventListener('click', function() {
-            // No action needed since buttons are already visible
-        });
-
-        // Re-use the previous button logic for the new buttons
-        document.getElementById('noBtn4').addEventListener('click', () => {
-            alert('Неправильный ответ! 😅');
-        });
-
-        document.getElementById('noBtn4').addEventListener('mouseover', () => {
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 100);
-            document.getElementById('noBtn4').style.position = 'absolute';
-            document.getElementById('noBtn4').style.left = `${x}px`;
-            document.getElementById('noBtn4').style.top = `${y}px`;
+            const noBtn4 = document.getElementById('noBtn4');
+            const yesBtn4 = document.getElementById('yesBtn4');
             let size4 = 1;
-            size4 += 0.3;
-            document.getElementById('yesBtn4').style.transform = `scale(${size4})`;
-        });
+
+            noBtn4.addEventListener('click', () => {
+                alert('Неправильный ответ! 😅');
+            });
+
+            noBtn4.addEventListener('mouseover', () => {
+                const x = Math.random() * (window.innerWidth - 100);
+                const y = Math.random() * (window.innerHeight - 100);
+                noBtn4.style.position = 'absolute';
+                noBtn4.style.left = `${x}px`;
+                noBtn4.style.top = `${y}px`;
+            });
+
+            yesBtn4.addEventListener('mouseover', () => {
+                size4 += 0.3;
+                yesBtn4.style.transform = `scale(${size4})`;
+            });
+        }
     </script>
 </body>
 </html>
