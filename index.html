@@ -92,14 +92,28 @@
             height: 100%;
             text-align: center;
             transition: all 0.5s ease;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="rgba(255, 0, 0, 0.1)"/></svg>') repeat;
+            background-size: 20px 20px;
         }
         #finalContent h1 {
             font-size: 2.5em;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            color: #FFD700;
         }
         #finalContent h2 {
             font-size: 1.5em;
+            margin-top: 30px;
+            color: #FFD700;
+        }
+        #finalContent img {
+            width: 300px;
+            height: auto;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+        }
+        #finalContent .buttons {
             margin-top: 30px;
         }
     </style>
@@ -124,7 +138,7 @@
 
     <div id="finalContent">
         <h1>Ура твой нерди бойфренд рад</h1>
-        <img src="https://i.pinimg.com/736x/f2/01/5a/f2015ad39530f5cea4c922e933a50c4f.jpg" alt="Нерди бойфренд">
+        <img src="https://i.pinimg.com/originals/1e/d7/84/1ed7842f01f2b42794866d83737557d4.gif" alt="Нерди бойфренд" autoplay loop>
         <h2>Продолжим просмотр?</h2>
         <div class="buttons">
             <button class="btn yes" id="yesBtn3">Да 💚</button>
@@ -201,7 +215,7 @@
             yesBtn3.style.transform = `scale(${size3})`;
         });
 
-        // The 'yesBtn3' click event can be left empty or used to add another action if needed
+        // Note: The GIF should automatically play and loop due to the nature of GIFs. No additional JavaScript needed for this.
     </script>
 </body>
 </html>
