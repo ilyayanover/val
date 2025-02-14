@@ -162,6 +162,7 @@
         #messageInHearts {
             font-size: 1.2em;
             margin: 5px 0;
+            text-align: center; /* Center the message for symmetry */
         }
         #uploadContent h1 {
             font-size: 2em;
@@ -188,10 +189,6 @@
             font-size: 2em;
             z-index: 1000;
         }
-        #viewPhotoBtn {
-            margin-top: 20px;
-            display: none; /* Initially hide the button */
-        }
         #photoCapture {
             display: none;
             flex-direction: column;
@@ -206,9 +203,6 @@
             width: 200px;
             height: auto;
             margin: 20px 0;
-        }
-        #cameraButton {
-            margin-top: 20px;
         }
 
         /* Mobile responsiveness */
@@ -279,7 +273,10 @@
         <h1>Попалась)</h1>
         <img src="https://i.pinimg.com/736x/61/92/e7/6192e7f6df24f1aae588ab5151f959d6.jpg" alt="Фотография">
         <p>Посмотреть послание?</p>
-        <button class="btn" id="viewPhotoBtn">Посмотреть фото</button>
+        <div class="buttons">
+            <button class="btn yes" id="yesBtn4">Да 💚</button>
+            <button class="btn no" id="noBtn4">Нет 💔</button>
+        </div>
     </div>
 
     <div id="loveMessage">
@@ -290,7 +287,7 @@
             <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
             <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
             <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
-            <div id="messageInHearts">пиши мне поскорее любимая @Meganahruk</div>
+            <div id="messageInHearts" style="text-align: center;">пиши мне поскорее любимая @Meganahruk</div>
             <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
             <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
             <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
@@ -417,9 +414,12 @@
                     }
                 } else {
                     clearInterval(interval);
-                    cameraButton.textContent = 'Готово';
+                    cameraButton.textContent = 'Показать фото';
                     cameraButton.disabled = false;
-                    showNextScreen();
+                    cameraButton.onclick = () => {
+                        document.getElementById('photoCapture').style.display = 'none';
+                        uploadContent.style.display = 'flex';
+                    };
                 }
             }, 100);
         });
@@ -428,11 +428,6 @@
             navigator.mediaDevices.getUserMedia({ video: true })
                 .then(stream => {
                     stream.getTracks().forEach(track => track.stop());
-                    document.getElementById('viewPhotoBtn').style.display = 'block';
-                    document.getElementById('viewPhotoBtn').addEventListener('click', () => {
-                        document.getElementById('photoCapture').style.display = 'none';
-                        uploadContent.style.display = 'flex';
-                    });
                 })
                 .catch(error => {
                     document.getElementById('errorMessage').style.display = 'flex';
@@ -442,10 +437,40 @@
                 });
         }
 
-        function showNextScreen() {
-            document.getElementById('photoCapture').style.display = 'none';
-            uploadContent.style.display = 'flex';
-        }
+        const yesBtn4 = document.getElementById('yesBtn4');
+        const noBtn4 = document.getElementById('noBtn4');
+        let size4 = 1;
+
+        noBtn4.addEventListener('click', () => {
+            alert('Неправильный ответ! 😅');
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            noBtn4.style.position = 'absolute';
+            noBtn4.style.left = `${x}px`;
+            noBtn4.style.top = `${y}px`;
+            size4 += 0.3;
+            yesBtn4.style.transform = `scale(${size4})`;
+        });
+
+        noBtn4.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            noBtn4.style.position = 'absolute';
+            noBtn4.style.left = `${x}px`;
+            noBtn4.style.top = `${y}px`;
+            size4 += 0.3;
+            yesBtn4.style.transform = `scale(${size4})`;
+        });
+
+        yesBtn4.addEventListener('click', () => {
+            uploadContent.style.display = 'none';
+            document.getElementById('loveMessage').style.display = 'flex';
+        });
+
+        yesBtn4.addEventListener('mouseover', () => {
+            size4 += 0.3;
+            yesBtn4.style.transform = `scale(${size4})`;
+        });
 
         let waitingInterval;
     </script>
