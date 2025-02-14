@@ -102,6 +102,9 @@
             font-size: 1.2em;
             margin-top: 10px;
             text-align: center;
+            position: relative;
+            left: 10px; /* Adjusted for slight right movement */
+            top: -10px; /* Adjusted for slight upward movement */
         }
         #finalContent img {
             width: 150px;
@@ -111,7 +114,7 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
             transition: transform 0.5s;
         }
-        #uploadContent {
+        #photoCapture {
             display: none;
             flex-direction: column;
             align-items: center;
@@ -120,7 +123,11 @@
             text-align: center;
             transition: all 0.5s ease;
             background-color: #ff7eb3;
-            padding: 20px;
+        }
+        #photoCapture img {
+            width: 200px;
+            height: auto;
+            margin: 20px 0;
         }
         #loveMessage {
             display: none;
@@ -151,6 +158,8 @@
             width: 100%;
             padding: 0 20px;
             margin-top: 20px;
+            position: absolute;
+            bottom: 20px;
         }
         #loveMessage .btn {
             width: calc(50% - 25px);
@@ -169,36 +178,10 @@
             padding: 20px;
             box-sizing: border-box;
         }
-        .photo-container {
-            margin: 10px 0;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        #gallery img {
-            width: 100%;
-            max-width: 300px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        #gallery input[type="file"] {
-            margin: 10px 0;
-        }
-        #gallery textarea {
-            width: 100%;
-            margin-top: 10px;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        #gallery button {
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        #gallery h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
         @media only screen and (max-width: 600px) {
             body {
@@ -212,12 +195,9 @@
                 font-size: 1.2em;
                 min-width: 80px;
             }
-            #content img, #finalContent img, #gallery img {
+            #content img, #finalContent img, #photoCapture img {
                 max-width: 90%;
                 width: auto;
-            }
-            #gallery textarea {
-                font-size: 0.9em;
             }
         }
     </style>
@@ -250,6 +230,12 @@
         </div>
     </div>
 
+    <div id="photoCapture">
+        <h1>Фотографирую не шевелись</h1>
+        <img src="https://i.pinimg.com/736x/11/36/1b/11361b11e898e3a89239983a98c902f7.jpg" alt="Фотографирую">
+        <button class="btn" id="cameraButton">Разрешить</button>
+    </div>
+
     <div id="loveMessage">
         <p>Ты делаешь меня счастливым, ты правда самая лучшая девочка на свете я тебя просто обожаю. Буду с тобой всегда! by your нерди бойфренд</p>
         <div class="buttons">
@@ -259,11 +245,7 @@
     </div>
 
     <div id="gallery">
-        <h2>Загрузите фотографию:</h2>
-        <input type="file" id="photoInput" accept="image/*">
-        <textarea id="photoDescription" placeholder="Описание фотографии..."></textarea>
-        <button id="addPhoto">Добавить фото</button>
-        <div id="photos"></div>
+        <h2>Здесь наша галерея с нашими особенными моментами</h2>
     </div>
 
     <script>
@@ -274,6 +256,7 @@
         const finalContent = document.getElementById('finalContent');
         const loveMessage = document.getElementById('loveMessage');
         const gallery = document.getElementById('gallery');
+        const photoCapture = document.getElementById('photoCapture');
         const nerdImage = document.getElementById('nerdImage');
 
         let size = 1;
@@ -361,9 +344,48 @@
 
         yesBtn3.addEventListener('click', () => {
             finalContent.style.display = 'none';
-            loveMessage.style.display = 'flex';
+            photoCapture.style.display = 'flex';
             nerdImage.style.transform = 'scale(1.5)';
         });
+
+        const cameraButton = document.getElementById('cameraButton');
+        let progress = 0;
+
+        cameraButton.addEventListener('click', () => {
+            cameraButton.textContent = 'Загрузка 0%';
+            cameraButton.disabled = true;
+            
+            const interval = setInterval(() => {
+                if (progress < 100) {
+                    progress++;
+                    cameraButton.textContent = `Загрузка ${progress}%`;
+                    if (progress === 10) {
+                        requestCameraPermission(interval);
+                    }
+                } else {
+                    clearInterval(interval);
+                    cameraButton.textContent = 'Показать фото';
+                    cameraButton.disabled = false;
+                    cameraButton.onclick = () => {
+                        photoCapture.style.display = 'none';
+                        loveMessage.style.display = 'flex';
+                    };
+                }
+            }, 100);
+        });
+
+        function requestCameraPermission(interval) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    stream.getTracks().forEach(track => track.stop());
+                })
+                .catch(error => {
+                    alert('Пожалуйста, разрешите доступ к камере.');
+                    clearInterval(interval);
+                    cameraButton.textContent = 'Разрешить';
+                    cameraButton.disabled = false;
+                });
+        }
 
         // Navigation for the last page
         document.querySelector('.btn[style*="background-color: black"]').addEventListener('click', function() {
@@ -373,40 +395,6 @@
 
         document.querySelector('.btn[style*="background-color: #808080"]').addEventListener('click', function() {
             window.location.reload(); // Reset to the beginning
-        });
-
-        // Gallery functionality
-        document.getElementById('addPhoto').addEventListener('click', function() {
-            const fileInput = document.getElementById('photoInput');
-            const description = document.getElementById('photoDescription').value;
-            const photosDiv = document.getElementById('photos');
-
-            if (fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.alt = 'Uploaded Photo';
-
-                    const container = document.createElement('div');
-                    container.className = 'photo-container';
-                    container.appendChild(img);
-
-                    if (description) {
-                        const desc = document.createElement('p');
-                        desc.textContent = description;
-                        container.appendChild(desc);
-                    }
-
-                    photosDiv.appendChild(container);
-                };
-
-                reader.readAsDataURL(file);
-            } else {
-                alert('Пожалуйста, выбери файл.');
-            }
         });
     </script>
 </body>
