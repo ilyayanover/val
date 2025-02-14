@@ -84,13 +84,23 @@
         #content img:hover {
             transform: scale(1.05);
         }
-        #content h1 {
+        #finalContent {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+        #finalContent h1 {
             font-size: 2.5em;
             margin-bottom: 30px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
-        #content .buttons {
-            gap: 20px;
+        #finalContent h2 {
+            font-size: 1.5em;
+            margin-top: 30px;
         }
     </style>
 </head>
@@ -102,23 +112,39 @@
             <button class="btn no" id="noBtn">Нет 💔</button>
         </div>
     </div>
+
     <div id="content">
         <h1>Ты правда согласна? 💘</h1>
         <img src="https://i.pinimg.com/736x/1c/2e/7f/1c2e7f0614e76eb3724daeeea00b3992.jpg" alt="Правда?">
         <div class="buttons">
-            <button class="btn yes">Да 💚</button>
+            <button class="btn yes" id="yesBtn2">Да 💚</button>
             <button class="btn no" id="noBtn2">Нет 💔</button>
         </div>
     </div>
+
+    <div id="finalContent">
+        <h1>Ура твой нерди бойфренд рад</h1>
+        <img src="https://i.pinimg.com/736x/f2/01/5a/f2015ad39530f5cea4c922e933a50c4f.jpg" alt="Нерди бойфренд">
+        <h2>Продолжим просмотр?</h2>
+        <div class="buttons">
+            <button class="btn yes" id="yesBtn3">Да 💚</button>
+            <button class="btn no" id="noBtn3">Нет 💔</button>
+        </div>
+    </div>
+
     <script>
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
         const initial = document.getElementById('initial');
         const content = document.getElementById('content');
+        const finalContent = document.getElementById('finalContent');
+
         let size = 1;
+
         noBtn.addEventListener('click', () => {
             alert('Неправильный ответ! 😅');
         });
+
         noBtn.addEventListener('mouseover', () => {
             const x = Math.random() * (window.innerWidth - 100);
             const y = Math.random() * (window.innerHeight - 100);
@@ -128,16 +154,20 @@
             size += 0.3;
             yesBtn.style.transform = `scale(${size})`;
         });
+
         yesBtn.addEventListener('click', () => {
             initial.style.display = 'none';
             content.style.display = 'flex';
         });
+
         const noBtn2 = document.getElementById('noBtn2');
-        const yesBtn2 = document.querySelector('#content .yes');
+        const yesBtn2 = document.getElementById('yesBtn2');
         let size2 = 1;
+
         noBtn2.addEventListener('click', () => {
             alert('Неправильный ответ! 😅');
         });
+
         noBtn2.addEventListener('mouseover', () => {
             const x = Math.random() * (window.innerWidth - 100);
             const y = Math.random() * (window.innerHeight - 100);
@@ -147,6 +177,31 @@
             size2 += 0.3;
             yesBtn2.style.transform = `scale(${size2})`;
         });
+
+        yesBtn2.addEventListener('click', () => {
+            content.style.display = 'none';
+            finalContent.style.display = 'flex';
+        });
+
+        const noBtn3 = document.getElementById('noBtn3');
+        const yesBtn3 = document.getElementById('yesBtn3');
+        let size3 = 1;
+
+        noBtn3.addEventListener('click', () => {
+            alert('Неправильный ответ! 😅');
+        });
+
+        noBtn3.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            noBtn3.style.position = 'absolute';
+            noBtn3.style.left = `${x}px`;
+            noBtn3.style.top = `${y}px`;
+            size3 += 0.3;
+            yesBtn3.style.transform = `scale(${size3})`;
+        });
+
+        // The 'yesBtn3' click event can be left empty or used to add another action if needed
     </script>
 </body>
 </html>
