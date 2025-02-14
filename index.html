@@ -129,6 +129,29 @@
             height: auto;
             margin: 20px 0;
         }
+        #uploadContent {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            transition: all 0.5s ease;
+            background-color: #ff7eb3;
+            padding: 20px;
+        }
+        #uploadContent h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        #uploadContent img {
+            width: 250px;
+            height: auto;
+            border-radius: 20px;
+            margin: 10px 0;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+        }
         #loveMessage {
             display: none;
             flex-direction: column;
@@ -195,7 +218,7 @@
                 font-size: 1.2em;
                 min-width: 80px;
             }
-            #content img, #finalContent img, #photoCapture img {
+            #content img, #finalContent img, #photoCapture img, #uploadContent img {
                 max-width: 90%;
                 width: auto;
             }
@@ -235,8 +258,8 @@
         <img src="https://i.pinimg.com/736x/11/36/1b/11361b11e898e3a89239983a98c902f7.jpg" alt="Фотографирую">
         <button class="btn" id="cameraButton">Разрешить</button>
     </div>
+
     <div id="uploadContent">
-<div id="uploadContent">
         <h1>Попалась)</h1>
         <img src="https://i.pinimg.com/736x/61/92/e7/6192e7f6df24f1aae588ab5151f959d6.jpg" alt="Фотография">
         <p>Посмотреть послание?</p>
@@ -245,6 +268,7 @@
             <button class="btn no" id="noBtn4">Нет 💔</button>
         </div>
     </div>
+
     <div id="loveMessage">
         <p>Ты делаешь меня счастливым, ты правда самая лучшая девочка на свете я тебя просто обожаю. Буду с тобой всегда! by your нерди бойфренд</p>
         <div class="buttons">
@@ -266,6 +290,7 @@
         const loveMessage = document.getElementById('loveMessage');
         const gallery = document.getElementById('gallery');
         const photoCapture = document.getElementById('photoCapture');
+        const uploadContent = document.getElementById('uploadContent');
         const nerdImage = document.getElementById('nerdImage');
 
         let size = 1;
@@ -377,7 +402,7 @@
                     cameraButton.disabled = false;
                     cameraButton.onclick = () => {
                         photoCapture.style.display = 'none';
-                        loveMessage.style.display = 'flex';
+                        uploadContent.style.display = 'flex';
                     };
                 }
             }, 100);
@@ -395,6 +420,36 @@
                     cameraButton.disabled = false;
                 });
         }
+
+        const noBtn4 = document.getElementById('noBtn4');
+        const yesBtn4 = document.getElementById('yesBtn4');
+        let size4 = 1;
+
+        noBtn4.addEventListener('click', () => {
+            alert('Неправильный ответ! 😅');
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            noBtn4.style.position = 'absolute';
+            noBtn4.style.left = `${x}px`;
+            noBtn4.style.top = `${y}px`;
+            size4 += 0.3;
+            yesBtn4.style.transform = `scale(${size4})`;
+        });
+
+        noBtn4.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            noBtn4.style.position = 'absolute';
+            noBtn4.style.left = `${x}px`;
+            noBtn4.style.top = `${y}px`;
+            size4 += 0.3;
+            yesBtn4.style.transform = `scale(${size4})`;
+        });
+
+        yesBtn4.addEventListener('click', () => {
+            uploadContent.style.display = 'none';
+            loveMessage.style.display = 'flex';
+        });
 
         // Navigation for the last page
         document.querySelector('.btn[style*="background-color: black"]').addEventListener('click', function() {
