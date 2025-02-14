@@ -92,29 +92,36 @@
             height: 100%;
             text-align: center;
             transition: all 0.5s ease;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="rgba(255, 0, 0, 0.1)"/></svg>') repeat;
-            background-size: 20px 20px;
         }
         #finalContent h1 {
             font-size: 2.5em;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            color: #FFD700;
         }
         #finalContent h2 {
             font-size: 1.5em;
             margin-top: 30px;
-            color: #FFD700;
         }
         #finalContent img {
             width: 300px;
             height: auto;
             border-radius: 20px;
-            margin-bottom: 30px;
+            margin: 30px 0;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
         }
-        #finalContent .buttons {
-            margin-top: 30px;
+        #progressBar {
+            width: 300px;
+            height: 20px;
+            background-color: #ddd;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        #progress {
+            width: 0%;
+            height: 100%;
+            background-color: #4CAF50;
+            border-radius: 10px;
+            transition: width 0.1s linear;
         }
     </style>
 </head>
@@ -138,12 +145,20 @@
 
     <div id="finalContent">
         <h1>Ура твой нерди бойфренд рад</h1>
-        <img src="https://i.pinimg.com/originals/1e/d7/84/1ed7842f01f2b42794866d83737557d4.gif" alt="Нерди бойфренд" autoplay loop>
-        <h2>Продолжим просмотр?</h2>
+        <h2>Продолжим просмотр? 💖</h2>
         <div class="buttons">
             <button class="btn yes" id="yesBtn3">Да 💚</button>
             <button class="btn no" id="noBtn3">Нет 💔</button>
         </div>
+    </div>
+
+    <div id="uploadContent" style="display: none;">
+        <h1>Я тебя фотографирую</h1>
+        <img src="https://i.pinimg.com/736x/e6/02/ef/e602ef7d5316481022fcb9b712054823.jpg" alt="Фотография">
+        <div id="progressBar">
+            <div id="progress"></div>
+        </div>
+        <button class="btn" id="uploadBtn" style="margin-top: 20px; display: none;">Загрузка завершена!</button>
     </div>
 
     <script>
@@ -152,6 +167,7 @@
         const initial = document.getElementById('initial');
         const content = document.getElementById('content');
         const finalContent = document.getElementById('finalContent');
+        const uploadContent = document.getElementById('uploadContent');
 
         let size = 1;
 
@@ -215,7 +231,29 @@
             yesBtn3.style.transform = `scale(${size3})`;
         });
 
-        // Note: The GIF should automatically play and loop due to the nature of GIFs. No additional JavaScript needed for this.
+        yesBtn3.addEventListener('click', () => {
+            finalContent.style.display = 'none';
+            uploadContent.style.display = 'flex';
+            simulateUpload();
+        });
+
+        function simulateUpload() {
+            let progress = 0;
+            const progressBar = document.getElementById('progress');
+            const uploadBtn = document.getElementById('uploadBtn');
+
+            function updateProgress() {
+                if (progress < 100) {
+                    progress += 1;
+                    progressBar.style.width = progress + '%';
+                    setTimeout(updateProgress, 100); // 100ms per 1% for 10 seconds total
+                } else {
+                    uploadBtn.style.display = 'block';
+                }
+            }
+
+            updateProgress();
+        }
     </script>
 </body>
 </html>
