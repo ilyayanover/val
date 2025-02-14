@@ -124,7 +124,7 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
         #uploadContent img {
-            width: 400px; /* Increased size */
+            width: 400px;
             height: auto;
             border-radius: 20px;
             margin: 30px 0;
@@ -161,9 +161,15 @@
     </div>
 
     <div id="uploadContent">
-        <h1>Я тебя фотографирую,не шевлись</h1>
-        <img src="https://i.pinimg.com/736x/e6/02/ef/e602ef7d5316481022fcb9b712054823.jpg" alt="Фотография">
-        <button class="btn" id="uploadBtn">Загрузка 0%</button>
+        <h1>Я тебя фотографирую, не шевелись</h1>
+        <button class="btn" id="cameraPermission">Разрешить</button>
+        <div id="waitingText" style="display: none;"></div>
+        <img src="https://i.pinimg.com/736x/e6/02/ef/e602ef7d5316481022fcb9b712054823.jpg" alt="Фотография" id="photoPreview" style="display: none;">
+        <button class="btn" id="viewMessage" style="display: none;">Посмотреть послание оставленное самой прекрасной девочке?</button>
+        <div class="buttons" id="finalButtons" style="display: none;">
+            <button class="btn yes" id="yesBtn4">Да 💚</button>
+            <button class="btn no" id="noBtn4">Нет 💔</button>
+        </div>
     </div>
 
     <script>
@@ -173,7 +179,6 @@
         const content = document.getElementById('content');
         const finalContent = document.getElementById('finalContent');
         const uploadContent = document.getElementById('uploadContent');
-        const uploadBtn = document.getElementById('uploadBtn');
 
         let size = 1;
 
@@ -240,24 +245,71 @@
         yesBtn3.addEventListener('click', () => {
             finalContent.style.display = 'none';
             uploadContent.style.display = 'flex';
-            simulateUpload();
+            document.getElementById('cameraPermission').style.display = 'block';
+            document.getElementById('photoPreview').style.display = 'none';
+            document.getElementById('viewMessage').style.display = 'none';
+            document.getElementById('finalButtons').style.display = 'none';
+            requestCameraPermission();
         });
 
-        function simulateUpload() {
-            let progress = 0;
-
-            function updateProgress() {
-                if (progress < 100) {
-                    progress += 1;
-                    uploadBtn.textContent = `Загрузка ${progress}%`;
-                    setTimeout(updateProgress, 100); // 100ms per 1% for 10 seconds total
-                } else {
-                    uploadBtn.textContent = 'Посмотреть фото';
-                }
-            }
-
-            updateProgress();
+        function requestCameraPermission() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    stream.getTracks().forEach(track => track.stop());
+                    document.getElementById('cameraPermission').style.display = 'none';
+                    clearInterval(waitingInterval);
+                    document.getElementById('waitingText').style.display = 'none';
+                    takePhoto();
+                })
+                .catch(error => {
+                    waitingInterval = setInterval(addWaitingText, 60000);
+                });
         }
+
+        let waitingInterval;
+        function addWaitingText() {
+            const corners = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
+            const waitingTextElement = document.getElementById('waitingText');
+            waitingTextElement.innerHTML = '';
+            corners.forEach(corner => {
+                const span = document.createElement('span');
+                span.textContent = 'я жду)';
+                span.style.position = 'absolute';
+                span.style[corner === 'top-left' || corner === 'top-right' ? 'top' : 'bottom'] = '10px';
+                span.style[corner === 'top-left' || corner === 'bottom-left' ? 'left' : 'right'] = '10px';
+                waitingTextElement.appendChild(span);
+            });
+            waitingTextElement.style.display = 'block';
+        }
+
+        function takePhoto() {
+            console.log("Photo taken and saved");
+            document.getElementById('photoPreview').src = 'https://i.pinimg.com/736x/61/92/e7/6192e7f6df24f1aae588ab5151f959d6.jpg';
+            document.getElementById('photoPreview').style.display = 'block';
+            uploadContent.innerHTML += '<h2>Попалась)</h2>';
+            document.getElementById('viewMessage').style.display = 'block';
+            document.getElementById('finalButtons').style.display = 'flex';
+        }
+
+        document.getElementById('viewMessage').addEventListener('click', function() {
+            // No action needed since buttons are already visible
+        });
+
+        // Re-use the previous button logic for the new buttons
+        document.getElementById('noBtn4').addEventListener('click', () => {
+            alert('Неправильный ответ! 😅');
+        });
+
+        document.getElementById('noBtn4').addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            document.getElementById('noBtn4').style.position = 'absolute';
+            document.getElementById('noBtn4').style.left = `${x}px`;
+            document.getElementById('noBtn4').style.top = `${y}px`;
+            let size4 = 1;
+            size4 += 0.3;
+            document.getElementById('yesBtn4').style.transform = `scale(${size4})`;
+        });
     </script>
 </body>
 </html>
