@@ -259,8 +259,18 @@
 
         let size = 1;
 
+        // Function for moving the 'No' button randomly
+        function moveNoButton(button) {
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            button.style.position = 'absolute';
+            button.style.left = `${x}px`;
+            button.style.top = `${y}px`;
+        }
+
         noBtn.addEventListener('click', () => {
             alert('Неправильный ответ! 😅');
+            moveNoButton(noBtn);
         });
 
         noBtn.addEventListener('mouseover', () => {
@@ -284,6 +294,7 @@
 
         noBtn2.addEventListener('click', () => {
             alert('Неправильный ответ! 😅');
+            moveNoButton(noBtn2);
         });
 
         noBtn2.addEventListener('mouseover', () => {
@@ -307,6 +318,7 @@
 
         noBtn3.addEventListener('click', () => {
             alert('Неправильный ответ! 😅');
+            moveNoButton(noBtn3);
         });
 
         noBtn3.addEventListener('mouseover', () => {
@@ -351,6 +363,7 @@
 
                     noBtn4.addEventListener('click', () => {
                         alert('Неправильный ответ! 😅');
+                        moveNoButton(noBtn4);
                     });
 
                     noBtn4.addEventListener('mouseover', () => {
