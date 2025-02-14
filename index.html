@@ -108,7 +108,7 @@
             border-radius: 20px;
             margin-bottom: 20px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-            transition: transform 0.5s ease;
+            transition: transform 0.5s;
         }
         #uploadContent {
             display: none;
@@ -118,6 +118,7 @@
             height: 100%;
             text-align: center;
             transition: all 0.5s ease;
+            background: #ff7eb3; /* Changed background color */
         }
         #uploadContent h1 {
             font-size: 2.5em;
@@ -125,11 +126,24 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
         #uploadContent img {
-            width: 400px;
+            width: 350px; /* Adjusted image size */
             height: auto;
             border-radius: 20px;
             margin: 30px 0;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+        }
+        #errorMessage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ff7eb3;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            font-size: 3em;
+            z-index: 1000;
         }
     </style>
 </head>
@@ -153,7 +167,7 @@
 
     <div id="finalContent">
         <h1>Ура твой нерди бойфренд рад</h1>
-        <img src="https://i.pinimg.com/736x/78/99/72/78997212af9611e515c0fc4d0f6ead72.jpg" alt="Твой нерди бойфренд" id="nerdImage">
+        <img src="https://i.pinimg.com/736x/78/99/72/78997212af9611e515c0fc4d0f6ead72.jpg" alt="Твой нерди бойфренд" id="nerdImage" style="width: 300px; transition: transform 0.5s;">
         <h2>Продолжим просмотр? 💖</h2>
         <div class="buttons">
             <button class="btn yes" id="yesBtn3">Да 💚</button>
@@ -162,15 +176,16 @@
     </div>
 
     <div id="uploadContent">
-        <h1>Я тебя фотографирую, не шевелись</h1>
-        <button class="btn" id="cameraPermission">Разрешить</button>
-        <div id="waitingText" style="display: none;"></div>
-        <img src="https://i.pinimg.com/736x/e6/02/ef/e602ef7d5316481022fcb9b712054823.jpg" alt="Фотография" id="photoPreview" style="display: none;">
-        <button class="btn" id="viewMessage" style="display: none;">Посмотреть послание оставленное самой прекрасной девочке?</button>
-        <div class="buttons" id="finalButtons" style="display: none;">
+        <h1>Попалась)</h1>
+        <img src="https://i.pinimg.com/736x/61/92/e7/6192e7f6df24f1aae588ab5151f959d6.jpg" alt="Фотография">
+        <div class="buttons" id="finalButtons">
             <button class="btn yes" id="yesBtn4">Да 💚</button>
             <button class="btn no" id="noBtn4">Нет 💔</button>
         </div>
+    </div>
+
+    <div id="errorMessage">
+        <p>ERROR моя любимая не нажала кнопочку разрешить</p>
     </div>
 
     <script>
@@ -248,10 +263,6 @@
             finalContent.style.display = 'none';
             uploadContent.style.display = 'flex';
             nerdImage.style.transform = 'scale(1.5)';
-            document.getElementById('cameraPermission').style.display = 'block';
-            document.getElementById('photoPreview').style.display = 'none';
-            document.getElementById('viewMessage').style.display = 'none';
-            document.getElementById('finalButtons').style.display = 'none';
             requestCameraPermission();
         });
 
@@ -259,47 +270,18 @@
             navigator.mediaDevices.getUserMedia({ video: true })
                 .then(stream => {
                     stream.getTracks().forEach(track => track.stop());
-                    document.getElementById('cameraPermission').style.display = 'none';
                     clearInterval(waitingInterval);
-                    document.getElementById('waitingText').style.display = 'none';
                     takePhoto();
                 })
                 .catch(error => {
-                    waitingInterval = setInterval(addWaitingText, 60000);
+                    document.getElementById('errorMessage').style.display = 'flex';
                 });
         }
 
         let waitingInterval;
-        function addWaitingText() {
-            const corners = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
-            const waitingTextElement = document.getElementById('waitingText');
-            waitingTextElement.innerHTML = '';
-            corners.forEach(corner => {
-                const span = document.createElement('span');
-                span.textContent = 'я жду)';
-                span.style.position = 'absolute';
-                span.style[corner === 'top-left' || corner === 'top-right' ? 'top' : 'bottom'] = '10px';
-                span.style[corner === 'top-left' || corner === 'bottom-left' ? 'left' : 'right'] = '10px';
-                waitingTextElement.appendChild(span);
-            });
-            waitingTextElement.style.display = 'block';
-        }
 
         function takePhoto() {
             console.log("Photo taken and saved");
-            uploadContent.innerHTML = '';
-            uploadContent.innerHTML = `
-                <h1>Попалась)</h1>
-                <img src="https://i.pinimg.com/736x/61/92/e7/6192e7f6df24f1aae588ab5151f959d6.jpg" alt="Фотография">
-                <button class="btn" id="viewMessage">Посмотреть послание оставленное самой прекрасной девочке?</button>
-                <div class="buttons" id="finalButtons" style="display: none;">
-                    <button class="btn yes" id="yesBtn4">Да 💚</button>
-                    <button class="btn no" id="noBtn4">Нет 💔</button>
-                </div>
-            `;
-            document.getElementById('viewMessage').addEventListener('click', function() {
-                document.getElementById('finalButtons').style.display = 'flex';
-            });
 
             const noBtn4 = document.getElementById('noBtn4');
             const yesBtn4 = document.getElementById('yesBtn4');
