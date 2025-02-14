@@ -114,24 +114,60 @@
             margin-bottom: 30px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
         }
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            align-items: center;
+            width: 100%;
+        }
         .btn {
             padding: 20px 40px;
             border: none;
             border-radius: 12px;
             font-size: 1.5em;
             cursor: pointer;
+            transition: 0.5s;
+            min-width: 120px;
+        }
+        .yes {
             background-color: #28a745;
             color: #fff;
-            transition: 0.3s;
         }
-        .btn:hover {
-            transform: scale(1.1);
+        .no {
+            background-color: #dc3545;
+            color: #fff;
+            position: relative;
         }
     </style>
 </head>
 <body>
     <h1>Ты моя самая лучшая Валентинка! 💘</h1>
     <img src="https://i.pinimg.com/736x/1c/2e/7f/1c2e7f0614e76eb3724daeeea00b3992.jpg" alt="Правда?">
-    <button class="btn" onclick="window.location.href='index.html'">Назад</button>
+    <div class="buttons">
+        <button class="btn yes">Да 💚</button>
+        <button class="btn no" id="noBtn2">Нет 💔</button>
+    </div>
+
+    <script>
+        const noBtn2 = document.getElementById('noBtn2');
+        const yesBtn2 = document.querySelector('.yes');
+        let size2 = 1;
+
+        noBtn2.addEventListener('click', () => {
+            alert('Неправильный ответ! 😅');
+        });
+
+        noBtn2.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            noBtn2.style.position = 'absolute';
+            noBtn2.style.left = `${x}px`;
+            noBtn2.style.top = `${y}px`;
+            size2 += 0.3;
+            yesBtn2.style.transform = `scale(${size2})`;
+        });
+    </script>
 </body>
 </html>
+
