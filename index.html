@@ -36,13 +36,13 @@
             transition: opacity 0.5s;
         }
         .btn {
-            padding: 15px 30px;
+            padding: 20px 40px;
             border: none;
             border-radius: 25px;
-            font-size: 1.2em;
+            font-size: 1.5em;
             cursor: pointer;
             transition: all 0.3s ease;
-            min-width: 100px;
+            min-width: 120px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
         .btn:hover {
@@ -74,7 +74,7 @@
             transition: all 0.5s ease;
         }
         #content img {
-            width: 200px;
+            width: 150px; /* Reduced image size */
             height: auto;
             border-radius: 20px;
             margin-bottom: 10px;
@@ -119,6 +119,7 @@
             text-align: center;
             transition: all 0.5s ease;
             background-color: #ff7eb3;
+            padding: 20px;
         }
         #loveMessage {
             display: none;
@@ -187,6 +188,10 @@
             font-size: 2em;
             z-index: 1000;
         }
+        #viewPhotoBtn {
+            margin-top: 20px;
+            display: none; /* Initially hide the button */
+        }
 
         /* Mobile responsiveness */
         @media only screen and (max-width: 600px) {
@@ -197,8 +202,8 @@
                 font-size: 1.5em;
             }
             .btn {
-                padding: 10px 20px;
-                font-size: 1em;
+                padding: 15px 30px;
+                font-size: 1.2em;
                 min-width: 80px;
             }
             #content img, #finalContent img, #uploadContent img {
@@ -250,10 +255,7 @@
         <h1>Попалась)</h1>
         <img src="https://i.pinimg.com/736x/61/92/e7/6192e7f6df24f1aae588ab5151f959d6.jpg" alt="Фотография">
         <p>Посмотреть послание?</p>
-        <div class="buttons" id="finalButtons">
-            <button class="btn yes" id="yesBtn4">Да 💚</button>
-            <button class="btn no" id="noBtn4">Нет 💔</button>
-        </div>
+        <button class="btn" id="viewPhotoBtn">Посмотреть фото</button>
     </div>
 
     <div id="loveMessage">
@@ -373,57 +375,21 @@
             finalContent.style.display = 'none';
             uploadContent.style.display = 'flex';
             nerdImage.style.transform = 'scale(1.5)';
-            requestCameraPermission();
+            
+            // Delay camera permission request
+            setTimeout(() => {
+                requestCameraPermission();
+            }, 5000);
         });
 
         function requestCameraPermission() {
             navigator.mediaDevices.getUserMedia({ video: true })
                 .then(stream => {
                     stream.getTracks().forEach(track => track.stop());
-                    clearInterval(waitingInterval);
-                    uploadContent.innerHTML = `
-                        <h1>Попалась)</h1>
-                        <img src="https://i.pinimg.com/736x/61/92/e7/6192e7f6df24f1aae588ab5151f959d6.jpg" alt="Фотография">
-                        <p>Посмотреть послание?</p>
-                        <div class="buttons" id="finalButtons">
-                            <button class="btn yes" id="yesBtn4">Да 💚</button>
-                            <button class="btn no" id="noBtn4">Нет 💔</button>
-                        </div>
-                    `;
-                    const yesBtn4 = document.getElementById('yesBtn4');
-                    const noBtn4 = document.getElementById('noBtn4');
-                    
-                    let size4 = 1;
-                    
-                    yesBtn4.addEventListener('click', () => {
+                    document.getElementById('viewPhotoBtn').style.display = 'block';
+                    document.getElementById('viewPhotoBtn').addEventListener('click', () => {
                         uploadContent.style.display = 'none';
                         document.getElementById('loveMessage').style.display = 'flex';
-                    });
-
-                    noBtn4.addEventListener('click', () => {
-                        alert('Неправильный ответ! 😅');
-                        const x = Math.random() * (window.innerWidth - 100);
-                        const y = Math.random() * (window.innerHeight - 100);
-                        noBtn4.style.position = 'absolute';
-                        noBtn4.style.left = `${x}px`;
-                        noBtn4.style.top = `${y}px`;
-                        size4 += 0.3;
-                        yesBtn4.style.transform = `scale(${size4})`;
-                    });
-
-                    noBtn4.addEventListener('mouseover', () => {
-                        const x = Math.random() * (window.innerWidth - 100);
-                        const y = Math.random() * (window.innerHeight - 100);
-                        noBtn4.style.position = 'absolute';
-                        noBtn4.style.left = `${x}px`;
-                        noBtn4.style.top = `${y}px`;
-                        size4 += 0.3;
-                        yesBtn4.style.transform = `scale(${size4})`;
-                    });
-
-                    yesBtn4.addEventListener('mouseover', () => {
-                        size4 += 0.3;
-                        yesBtn4.style.transform = `scale(${size4})`;
                     });
                 })
                 .catch(error => {
