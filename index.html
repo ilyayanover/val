@@ -16,33 +16,33 @@
             font-family: 'Arial', sans-serif;
             color: #fff;
             text-align: center;
-            padding: 10px;
+            padding: 20px;
             box-sizing: border-box;
             overflow: hidden;
             transition: all 0.5s ease;
         }
         h1 {
-            font-size: 1.8em;
-            margin-bottom: 15px;
+            font-size: 2em;
+            margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             transition: opacity 0.5s;
         }
         .buttons {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
             align-items: center;
             width: 100%;
             transition: opacity 0.5s;
         }
         .btn {
-            padding: 15px 30px;
+            padding: 20px 40px;
             border: none;
             border-radius: 25px;
-            font-size: 1.2em;
+            font-size: 1.5em;
             cursor: pointer;
             transition: all 0.3s ease;
-            min-width: 80px;
+            min-width: 120px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
         .btn:hover {
@@ -74,11 +74,10 @@
             transition: all 0.5s ease;
         }
         #content img {
-            max-width: 70%;
-            width: auto;
+            width: 150px;
             height: auto;
             border-radius: 20px;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
             transition: transform 0.3s ease;
         }
@@ -95,13 +94,21 @@
             transition: all 0.5s ease;
         }
         #finalContent h1 {
-            font-size: 1.8em;
-            margin-bottom: 15px;
+            font-size: 2em;
+            margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
         #finalContent h2 {
             font-size: 1.2em;
             margin-top: 10px;
+        }
+        #finalContent img {
+            width: 150px;
+            height: auto;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+            transition: transform 0.5s;
         }
         #uploadContent {
             display: none;
@@ -112,7 +119,7 @@
             text-align: center;
             transition: all 0.5s ease;
             background-color: #ff7eb3;
-            padding: 10px;
+            padding: 20px;
         }
         #loveMessage {
             display: none;
@@ -123,24 +130,22 @@
             text-align: center;
             transition: all 0.5s ease;
             background-color: #ff7eb3;
-            padding: 10px;
+            padding: 20px;
             box-sizing: border-box;
         }
         #loveMessage p {
-            font-size: 0.8em;
+            font-size: 1em;
             line-height: 1.5;
-            padding: 5px;
+            padding: 15px;
             border-radius: 10px;
             background: linear-gradient(to right, #e66465, #9198e5);
             color: white;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-            overflow-y: auto;
-            max-height: 50vh;
         }
         #heartEmojis {
-            font-size: 1.2em;
+            font-size: 1.5em;
             margin-top: 10px;
             white-space: nowrap;
         }
@@ -155,17 +160,21 @@
             display: inline-block;
         }
         #messageInHearts {
-            font-size: 0.9em;
+            font-size: 1.2em;
             margin: 5px 0;
-            text-align: center;
-        }
-        #messageInHearts span.highlight {
-            color: #ff1493;
+            text-align: center; /* Center the message for symmetry */
         }
         #uploadContent h1 {
-            font-size: 1.8em;
-            margin-bottom: 15px;
+            font-size: 2em;
+            margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        #uploadContent img {
+            width: 250px;
+            height: auto;
+            border-radius: 20px;
+            margin: 10px 0;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
         }
         #errorMessage {
             position: fixed;
@@ -177,7 +186,7 @@
             display: none;
             justify-content: center;
             align-items: center;
-            font-size: 1.8em;
+            font-size: 2em;
             z-index: 1000;
         }
         #photoCapture {
@@ -190,32 +199,38 @@
             transition: all 0.5s ease;
             background-color: #ff7eb3;
         }
+        #photoCapture img {
+            width: 200px;
+            height: auto;
+            margin: 20px 0;
+        }
 
         /* Mobile responsiveness */
         @media only screen and (max-width: 600px) {
             body {
-                padding: 5px;
+                padding: 10px;
             }
             h1 {
-                font-size: 1.4em;
+                font-size: 1.5em;
             }
             .btn {
-                padding: 10px 20px;
-                font-size: 1em;
-                min-width: 70px;
+                padding: 15px 30px;
+                font-size: 1.2em;
+                min-width: 80px;
             }
-            #content img {
-                max-width: 80%;
+            #content img, #finalContent img, #uploadContent img, #photoCapture img {
+                max-width: 90%;
+                width: auto;
             }
             #heartEmojis {
-                font-size: 1em;
+                font-size: 1.2em;
             }
             #messageInHearts {
-                font-size: 0.8em;
+                font-size: 1em;
             }
             #loveMessage p {
-                font-size: 0.7em;
-                max-height: 40vh;
+                font-size: 0.9em;
+                padding: 10px;
             }
         }
     </style>
@@ -232,7 +247,7 @@
     <div id="content">
         <h1>Ты правда согласна? 💘</h1>
         <img src="https://i.pinimg.com/736x/1c/2e/7f/1c2e7f0614e76eb3724daeeea00b3992.jpg" alt="Правда?">
-        <div class="buttons" style="margin-top: -25px;">
+        <div class="buttons" style="margin-top: -20px;">
             <button class="btn yes" id="yesBtn2">Да 💚</button>
             <button class="btn no" id="noBtn2">Нет 💔</button>
         </div>
@@ -240,9 +255,9 @@
 
     <div id="finalContent">
         <h1>Ура твой нерди бойфренд рад</h1>
-        <img src="https://i.pinimg.com/736x/78/99/72/78997212af9611e515c0fc4d0f6ead72.jpg" alt="Твой нерди бойфренд" id="nerdImage" style="transition: transform 0.5s;">
+        <img src="https://i.pinimg.com/736x/78/99/72/78997212af9611e515c0fc4d0f6ead72.jpg" alt="Твой нерди бойфренд" id="nerdImage" style="width: 150px; transition: transform 0.5s;">
         <h2>Продолжим просмотр? 💖</h2>
-        <div class="buttons" style="margin-top: -15px;">
+        <div class="buttons" style="margin-top: -20px;">
             <button class="btn yes" id="yesBtn3">Да 💚</button>
             <button class="btn no" id="noBtn3">Нет 💔</button>
         </div>
@@ -272,7 +287,7 @@
             <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
             <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
             <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
-            <div id="messageInHearts" style="text-align: center;">пиши мне поскорее любимая <span class="highlight">@Meganahruk</span></div>
+            <div id="messageInHearts" style="text-align: center;">пиши мне поскорее любимая @Meganahruk</div>
             <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
             <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
             <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
