@@ -92,35 +92,9 @@
         #content .buttons {
             gap: 20px;
         }
-        
-        /* New styles for heart animation */
-        .hearts {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9999;
-            pointer-events: none;
-            opacity: 1;
-            transition: opacity 0.5s ease;
-        }
-        .heart {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="red" d="M50,90.7C22.4,70.3,0,51.5,0,29.3C0,13.1,13.1,0,29.3,0c10.9,0,20.5,6.1,25.7,15.1C59.2,6.1,68.8,0,79.7,0C95.9,0,109,13.1,109,29.3c0,22.2-22.4,41-50,61.4z"/></svg>') no-repeat center;
-            background-size: contain;
-            animation: jump 1s infinite alternate;
-        }
-        @keyframes jump {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-20px); }
-        }
     </style>
 </head>
 <body>
-    <div class="hearts"></div>
     <div id="initial">
         <h1>Станешь моей валентинкой? 💖</h1>
         <div class="buttons">
@@ -128,7 +102,6 @@
             <button class="btn no" id="noBtn">Нет 💔</button>
         </div>
     </div>
-
     <div id="content">
         <h1>Ты правда согласна? 💘</h1>
         <img src="https://i.pinimg.com/736x/1c/2e/7f/1c2e7f0614e76eb3724daeeea00b3992.jpg" alt="Правда?">
@@ -137,19 +110,15 @@
             <button class="btn no" id="noBtn2">Нет 💔</button>
         </div>
     </div>
-
     <script>
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
         const initial = document.getElementById('initial');
         const content = document.getElementById('content');
-
         let size = 1;
-
         noBtn.addEventListener('click', () => {
             alert('Неправильный ответ! 😅');
         });
-
         noBtn.addEventListener('mouseover', () => {
             const x = Math.random() * (window.innerWidth - 100);
             const y = Math.random() * (window.innerHeight - 100);
@@ -159,20 +128,16 @@
             size += 0.3;
             yesBtn.style.transform = `scale(${size})`;
         });
-
         yesBtn.addEventListener('click', () => {
             initial.style.display = 'none';
             content.style.display = 'flex';
         });
-
         const noBtn2 = document.getElementById('noBtn2');
         const yesBtn2 = document.querySelector('#content .yes');
         let size2 = 1;
-
         noBtn2.addEventListener('click', () => {
             alert('Неправильный ответ! 😅');
         });
-
         noBtn2.addEventListener('mouseover', () => {
             const x = Math.random() * (window.innerWidth - 100);
             const y = Math.random() * (window.innerHeight - 100);
@@ -182,38 +147,6 @@
             size2 += 0.3;
             yesBtn2.style.transform = `scale(${size2})`;
         });
-
-        // New code for heart animation
-        const heartsContainer = document.querySelector('.hearts');
-        let hearts = [];
-
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.top = Math.random() * 100 + 'vh';
-            heartsContainer.appendChild(heart);
-            hearts.push(heart);
-        }
-
-        function animateHearts() {
-            for (let i = 0; i < 100; i++) { // Create 100 hearts
-                createHeart();
-            }
-            setTimeout(() => {
-                heartsContainer.style.opacity = '0';
-                setTimeout(() => {
-                    hearts.forEach(heart => heart.remove());
-                    hearts = [];
-                }, 500); // Ensure transition has completed before removing hearts
-            }, 5000); // Hearts visible for 5 seconds
-        }
-
-        // Start the animation when the page loads
-        document.addEventListener('DOMContentLoaded', animateHearts);
     </script>
 </body>
 </html>
-</body>
-</html>
-
