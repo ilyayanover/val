@@ -13,11 +13,13 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            flex-direction: column;
         }
 
         .chest-container {
             display: flex;
             gap: 20px;
+            align-items: center;
         }
 
         .chest {
@@ -28,27 +30,42 @@
             background-size: cover;
             background-position: center;
             border: 2px solid #000;
+            display: none; /* Сундуки скрыты по умолчанию */
+        }
+
+        .chest.active {
+            display: block; /* Показываем сундук, если он активен */
         }
 
         .wooden {
-            background-image: url('https://via.placeholder.com/100x100?text=Wooden+Chest'); /* Замените на путь к изображению деревянного сундука */
+            background-image: url('https://via.placeholder.com/100x100?text=Wooden+Chest');
         }
 
         .iron {
-            background-image: url('https://via.placeholder.com/100x100?text=Iron+Chest'); /* Замените на путь к изображению железного сундука */
+            background-image: url('https://via.placeholder.com/100x100?text=Iron+Chest');
         }
 
         .golden {
-            background-image: url('https://via.placeholder.com/100x100?text=Golden+Chest'); /* Замените на путь к изображению золотого сундука */
+            background-image: url('https://via.placeholder.com/100x100?text=Golden+Chest');
         }
 
         .hp-bar {
-            width: 100%;
-            height: 10px;
-            background-color: red;
+            display: flex;
+            gap: 2px;
             position: absolute;
-            bottom: 0;
+            bottom: -20px;
             left: 0;
+        }
+
+        .heart {
+            width: 16px;
+            height: 16px;
+            background-image: url('https://static.wikia.nocookie.net/minecraft_gamepedia/images/7/7c/Heart_%28icon%29.png');
+            background-size: cover;
+        }
+
+        .heart.empty {
+            background-image: url('https://static.wikia.nocookie.net/minecraft_gamepedia/images/5/5f/Empty_Heart_%28icon%29.png');
         }
 
         @keyframes floatHeart {
@@ -56,11 +73,11 @@
             100% { transform: translateY(-50px); opacity: 0; }
         }
 
-        .heart {
+        .heart-float {
             position: absolute;
-            width: 20px;
-            height: 20px;
-            background-image: url('https://via.placeholder.com/20x20?text=❤️'); /* Замените на путь к изображению сердечка */
+            width: 16px;
+            height: 16px;
+            background-image: url('https://static.wikia.nocookie.net/minecraft_gamepedia/images/7/7c/Heart_%28icon%29.png');
             background-size: cover;
             animation: floatHeart 1s ease-out;
         }
@@ -68,18 +85,45 @@
 </head>
 <body>
     <div class="chest-container">
-        <div class="chest wooden" data-hp="100" onclick="hitChest(this)">
-            <div class="hp-bar"></div>
+        <div class="chest wooden active" data-hp="10" onclick="hitChest(this)">
+            <div class="hp-bar" id="wooden-hp-bar"></div>
         </div>
-        <div class="chest iron" data-hp="250" onclick="hitChest(this)">
-            <div class="hp-bar"></div>
+        <div class="chest iron" data-hp="20">
+            <div class="hp-bar" id="iron-hp-bar"></div>
         </div>
-        <div class="chest golden" data-hp="500" onclick="hitChest(this)">
-            <div class="hp-bar"></div>
+        <div class="chest golden" data-hp="30">
+            <div class="hp-bar" id="golden-hp-bar"></div>
         </div>
     </div>
 
     <script>
+        const chests = document.querySelectorAll('.chest');
+        let currentChestIndex = 0;
+
+        // Инициализация HP-баров
+        function initHpBar(chest, maxHp) {
+            const hpBar = chest.querySelector('.hp-bar');
+            hpBar.innerHTML = ''; // Очищаем HP-бар
+            for (let i = 0; i < maxHp; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                hpBar.appendChild(heart);
+            }
+        }
+
+        // Обновление HP-бара
+        function updateHpBar(chest, hp) {
+            const hpBar = chest.querySelector('.hp-bar');
+            const hearts = hpBar.querySelectorAll('.heart');
+            hearts.forEach((heart, index) => {
+                if (index < hp) {
+                    heart.classList.remove('empty');
+                } else {
+                    heart.classList.add('empty');
+                }
+            });
+        }
+
         function hitChest(chest) {
             let hp = parseInt(chest.getAttribute('data-hp'));
             if (hp > 0) {
@@ -87,29 +131,38 @@
                 chest.setAttribute('data-hp', hp);
                 updateHpBar(chest, hp);
 
-                // Создаем сердечко
-                const heart = document.createElement('div');
-                heart.classList.add('heart');
-                chest.appendChild(heart);
+                // Создаем вылетающее сердечко
+                const heartFloat = document.createElement('div');
+                heartFloat.classList.add('heart-float');
+                chest.appendChild(heartFloat);
 
-                // Удаляем сердечко после анимации
+                // Удаляем вылетающее сердечко после анимации
                 setTimeout(() => {
-                    heart.remove();
+                    heartFloat.remove();
                 }, 1000);
             }
-        }
 
-        function updateHpBar(chest, hp) {
-            const hpBar = chest.querySelector('.hp-bar');
-            const maxHp = parseInt(chest.getAttribute('data-hp')) + 1; // +1, так как мы уже отняли 1 HP
-            const hpPercentage = (hp / maxHp) * 100;
-            hpBar.style.width = `${hpPercentage}%`;
-
+            // Если HP достигло 0, показываем следующий сундук
             if (hp <= 0) {
-                chest.style.opacity = '0.5';
                 chest.style.pointerEvents = 'none';
+                chest.style.opacity = '0.5';
+                showNextChest();
             }
         }
+
+        function showNextChest() {
+            currentChestIndex++;
+            if (currentChestIndex < chests.length) {
+                chests[currentChestIndex].classList.add('active');
+                const maxHp = parseInt(chests[currentChestIndex].getAttribute('data-hp'));
+                initHpBar(chests[currentChestIndex], maxHp);
+            }
+        }
+
+        // Инициализация первого сундука
+        const firstChest = chests[currentChestIndex];
+        const maxHp = parseInt(firstChest.getAttribute('data-hp'));
+        initHpBar(firstChest, maxHp);
     </script>
 </body>
 </html>
