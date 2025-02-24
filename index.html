@@ -31,6 +31,14 @@
             font-size: 24px;
             -webkit-user-select: none; /* Запрет выделения текста на iOS */
             user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .heart {
+            width: 24px;
+            height: 24px;
+            margin-left: 10px;
         }
         .hidden {
             display: none;
@@ -75,12 +83,32 @@
                 padding: 8px 16px;
             }
         }
+        .heart-animation {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            animation: jumpAndFall 1s ease-out;
+        }
+        @keyframes jumpAndFall {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-50px);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
     </style>
 </head>
 <body>
     <div id="first-screen">
         <img src="https://art.pixilart.com/ba26544e0636db8.png" alt="Сундук" class="chest" id="chest">
-        <div class="xp-indicator" id="xp-indicator">100 XP</div>
+        <div class="xp-indicator" id="xp-indicator">
+            <span>100 XP</span>
+            <img src="https://shop.minecraft.net/cdn/shop/products/MC-VAL-ALT-100011-RO_1080x.png" alt="Сердце" class="heart">
+        </div>
     </div>
 
     <div id="second-screen" class="hidden">
@@ -105,11 +133,24 @@
         chest.addEventListener('click', () => {
             if (xp > 0) {
                 xp -= 1;
-                xpIndicator.textContent = `${xp} XP`;
+                xpIndicator.querySelector('span').textContent = `${xp} XP`;
                 chest.style.transform = 'translateY(-10px)';
                 setTimeout(() => {
                     chest.style.transform = 'translateY(0)';
                 }, 100);
+
+                // Создаем анимацию сердца
+                const heart = document.createElement('img');
+                heart.src = 'https://shop.minecraft.net/cdn/shop/products/MC-VAL-ALT-100011-RO_1080x.png';
+                heart.classList.add('heart-animation');
+                heart.style.left = `${chest.offsetLeft + chest.offsetWidth / 2 - 12}px`;
+                heart.style.top = `${chest.offsetTop}px`;
+                document.body.appendChild(heart);
+
+                // Удаляем сердце после завершения анимации
+                setTimeout(() => {
+                    heart.remove();
+                }, 1000);
             }
             if (xp === 0) {
                 xpIndicator.textContent = '';
