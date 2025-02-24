@@ -1,464 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Будешь моей Валентинкой?</title>
+    <title>Сундук с XP</title>
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
             margin: 0;
-            background: linear-gradient(135deg, #ff7eb3, #ff758c);
-            font-family: 'Arial', sans-serif;
-            color: #fff;
-            text-align: center;
-            padding: 20px;
-            box-sizing: border-box;
-            overflow: hidden;
-            transition: all 0.5s ease;
-        }
-        h1 {
-            font-size: 2em;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            transition: opacity 0.5s;
-        }
-        .buttons {
+            padding: 0;
             display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: center;
-            width: 100%;
-            transition: opacity 0.5s;
-        }
-        .btn {
-            padding: 20px 40px;
-            border: none;
-            border-radius: 25px;
-            font-size: 1.5em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 120px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        }
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-        }
-        .yes {
-            background-color: #28a745;
-            color: #fff;
-        }
-        .yes:hover {
-            background-color: #218838;
-        }
-        .no {
-            background-color: #dc3545;
-            color: #fff;
-            position: relative;
-        }
-        .no:hover {
-            background-color: #c82333;
-        }
-        #content {
-            display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100%;
-            text-align: center;
-            transition: all 0.5s ease;
+            min-height: 100vh;
+            -webkit-tap-highlight-color: transparent; /* Убирает подсветку при нажатии на Safari */
         }
-        #content img {
+        .chest {
             width: 100px;
-            height: auto;
-            border-radius: 20px;
-            margin-bottom: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-            transition: transform 0.3s ease;
-        }
-        #content img:hover {
-            transform: scale(1.05);
-        }
-        #finalContent {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            text-align: center;
-            transition: all 0.5s ease;
-        }
-        #finalContent h1 {
-            font-size: 2em;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        #finalContent h2 {
-            font-size: 1.2em;
-            margin-top: 10px;
-            text-align: center;
-            position: relative;
-            left: 10px; /* Adjusted for slight right movement */
-            top: -10px; /* Adjusted for slight upward movement */
-        }
-        #finalContent img {
-            width: 150px;
-            height: auto;
-            border-radius: 20px;
-            margin-bottom: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-            transition: transform 0.5s;
-        }
-        #photoCapture {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            text-align: center;
-            transition: all 0.5s ease;
-            background-color: #ff7eb3;
-        }
-        #photoCapture img {
-            width: 200px;
-            height: auto;
-            margin: 20px 0;
-        }
-        #uploadContent {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            text-align: center;
-            transition: all 0.5s ease;
-            background-color: #ff7eb3;
-            padding: 20px;
-        }
-        #uploadContent h1 {
-            font-size: 2em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        #uploadContent img {
-            width: 250px;
-            height: auto;
-            border-radius: 20px;
-            margin: 10px 0;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-        }
-        #loveMessage {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            text-align: center;
-            transition: all 0.5s ease;
-            background-color: #ff7eb3;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        #loveMessage p {
-            font-size: 1em;
-            text-align: center;
-            padding: 15px;
-            border-radius: 10px;
-            background: linear-gradient(to right, #e66465, #9198e5);
-            color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-        }
-        #loveMessage .buttons {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            padding: 0 20px;
+            cursor: pointer;
             margin-top: 20px;
-            position: absolute;
-            bottom: 20px;
+            transition: transform 0.1s;
+            -webkit-user-select: none; /* Запрет выделения изображения на iOS */
+            user-select: none;
         }
-        #loveMessage .btn {
-            width: calc(50% - 25px);
-            padding: 10px 0;
-            text-align: center;
+        .xp-indicator {
+            margin-top: 20px;
+            font-size: 24px;
+            -webkit-user-select: none; /* Запрет выделения текста на iOS */
+            user-select: none;
         }
-        #gallery {
+        .hidden {
             display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            text-align: center;
-            transition: all 0.5s ease;
-            background-color: #ff7eb3;
+        }
+        .second-screen, .third-screen {
+            margin-top: 20px;
             padding: 20px;
-            box-sizing: border-box;
         }
-        #gallery h2 {
-            font-size: 1.5em;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        .gift-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            -webkit-appearance: none; /* Убирает стандартные стили кнопок в Safari */
+            appearance: none;
         }
-        @media only screen and (max-width: 600px) {
-            body {
-                padding: 10px;
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            -webkit-appearance: none; /* Убирает стандартные стили кнопок в Safari */
+            appearance: none;
+        }
+        @media (max-width: 600px) {
+            .chest {
+                width: 80px;
             }
-            h1 {
-                font-size: 1.5em;
+            .xp-indicator {
+                font-size: 20px;
             }
-            .btn {
-                padding: 15px 30px;
-                font-size: 1.2em;
-                min-width: 80px;
-            }
-            #content img, #finalContent img, #photoCapture img, #uploadContent img {
-                max-width: 90%;
-                width: auto;
+            .gift-button, button {
+                font-size: 16px;
+                padding: 8px 16px;
             }
         }
     </style>
 </head>
 <body>
-    <div id="initial">
-        <h1>Станешь моей валентинкой? 💖</h1>
-        <div class="buttons">
-            <button class="btn yes" id="yesBtn">Да 💚</button>
-            <button class="btn no" id="noBtn">Нет 💔</button>
+    <div id="first-screen">
+        <img src="https://art.pixilart.com/ba26544e0636db8.png" alt="Сундук" class="chest" id="chest">
+        <div class="xp-indicator" id="xp-indicator">100 XP</div>
+    </div>
+
+    <div id="second-screen" class="hidden">
+        <div class="second-screen">
+            <p>Поздравляем! Вы открыли сундук!</p>
+            <button class="gift-button" id="gift-button">Получить подарок</button>
         </div>
     </div>
 
-    <div id="content">
-        <h1>Ты правда согласна? 💘</h1>
-        <img src="https://i.pinimg.com/736x/1c/2e/7f/1c2e7f0614e76eb3724daeeea00b3992.jpg" alt="Правда?" style="width: 100px; height: auto;">
-        <div class="buttons" style="margin-top: -50px;">
-            <button class="btn yes" id="yesBtn2">Да 💚</button>
-            <button class="btn no" id="noBtn2">Нет 💔</button>
-        </div>
-    </div>
-
-    <div id="finalContent">
-        <h1>Ура твой нерди бойфренд рад</h1>
-        <img src="https://i.pinimg.com/736x/78/99/72/78997212af9611e515c0fc4d0f6ead72.jpg" alt="Твой нерди бойфренд" id="nerdImage" style="width: 150px; transition: transform 0.5s;">
-        <h2 style="text-align: center;">Продолжим просмотр? 💖</h2>
-        <div class="buttons" style="margin-top: -20px;">
-            <button class="btn yes" id="yesBtn3">Да 💚</button>
-            <button class="btn no" id="noBtn3">Нет 💔</button>
-        </div>
-    </div>
-
-    <div id="photoCapture">
-        <h1>Фотографирую не шевелись</h1>
-        <img src="https://i.pinimg.com/736x/11/36/1b/11361b11e898e3a89239983a98c902f7.jpg" alt="Фотографирую">
-        <button class="btn" id="cameraButton">Разрешить</button>
-    </div>
-
-    <div id="uploadContent">
-        <h1>Попалась)</h1>
-        <img src="https://i.pinimg.com/736x/61/92/e7/6192e7f6df24f1aae588ab5151f959d6.jpg" alt="Фотография">
-        <p>Посмотреть послание?</p>
-        <div class="buttons">
-            <button class="btn yes" id="yesBtn4">Да 💚</button>
-            <button class="btn no" id="noBtn4">Нет 💔</button>
-        </div>
-    </div>
-
-    <div id="loveMessage">
-        <p>Ты делаешь меня счастливым, ты правда самая лучшая девочка на свете я тебя просто обожаю. Буду с тобой всегда! by your нерди бойфренд</p>
-        <div class="buttons">
-            <button class="btn" style="background-color: #808080; color: white;">Назад</button>
-            <button class="btn" style="background-color: black; color: white;">В галерею</button>
-        </div>
-    </div>
-
-    <div id="gallery">
-        <h2>Здесь наша галерея с нашими особенными моментами</h2>
+    <div id="third-screen" class="hidden">
+        <p>Ваш подарок: [Текст подарка]</p>
     </div>
 
     <script>
-        const noBtn = document.getElementById('noBtn');
-        const yesBtn = document.getElementById('yesBtn');
-        const initial = document.getElementById('initial');
-        const content = document.getElementById('content');
-        const finalContent = document.getElementById('finalContent');
-        const loveMessage = document.getElementById('loveMessage');
-        const gallery = document.getElementById('gallery');
-        const photoCapture = document.getElementById('photoCapture');
-        const uploadContent = document.getElementById('uploadContent');
-        const nerdImage = document.getElementById('nerdImage');
+        let xp = 100;
+        const chest = document.getElementById('chest');
+        const xpIndicator = document.getElementById('xp-indicator');
+        const secondScreen = document.getElementById('second-screen');
+        const thirdScreen = document.getElementById('third-screen');
+        const giftButton = document.getElementById('gift-button');
 
-        let size = 1;
-
-        noBtn.addEventListener('click', () => {
-            alert('Неправильный ответ! 😅');
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 100);
-            noBtn.style.position = 'absolute';
-            noBtn.style.left = `${x}px`;
-            noBtn.style.top = `${y}px`;
-            size += 0.3;
-            yesBtn.style.transform = `scale(${size})`;
-        });
-
-        noBtn.addEventListener('mouseover', () => {
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 100);
-            noBtn.style.position = 'absolute';
-            noBtn.style.left = `${x}px`;
-            noBtn.style.top = `${y}px`;
-            size += 0.3;
-            yesBtn.style.transform = `scale(${size})`;
-        });
-
-        yesBtn.addEventListener('click', () => {
-            initial.style.display = 'none';
-            content.style.display = 'flex';
-        });
-
-        const noBtn2 = document.getElementById('noBtn2');
-        const yesBtn2 = document.getElementById('yesBtn2');
-        let size2 = 1;
-
-        noBtn2.addEventListener('click', () => {
-            alert('Неправильный ответ! 😅');
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 100);
-            noBtn2.style.position = 'absolute';
-            noBtn2.style.left = `${x}px`;
-            noBtn2.style.top = `${y}px`;
-            size2 += 0.3;
-            yesBtn2.style.transform = `scale(${size2})`;
-        });
-
-        noBtn2.addEventListener('mouseover', () => {
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 100);
-            noBtn2.style.position = 'absolute';
-            noBtn2.style.left = `${x}px`;
-            noBtn2.style.top = `${y}px`;
-            size2 += 0.3;
-            yesBtn2.style.transform = `scale(${size2})`;
-        });
-
-        yesBtn2.addEventListener('click', () => {
-            content.style.display = 'none';
-            finalContent.style.display = 'flex';
-        });
-
-        const noBtn3 = document.getElementById('noBtn3');
-        const yesBtn3 = document.getElementById('yesBtn3');
-        let size3 = 1;
-
-        noBtn3.addEventListener('click', () => {
-            alert('Неправильный ответ! 😅');
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 100);
-            noBtn3.style.position = 'absolute';
-            noBtn3.style.left = `${x}px`;
-            noBtn3.style.top = `${y}px`;
-            size3 += 0.3;
-            yesBtn3.style.transform = `scale(${size3})`;
-        });
-
-        noBtn3.addEventListener('mouseover', () => {
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 100);
-            noBtn3.style.position = 'absolute';
-            noBtn3.style.left = `${x}px`;
-            noBtn3.style.top = `${y}px`;
-            size3 += 0.3;
-            yesBtn3.style.transform = `scale(${size3})`;
-        });
-
-        yesBtn3.addEventListener('click', () => {
-            finalContent.style.display = 'none';
-            photoCapture.style.display = 'flex';
-            nerdImage.style.transform = 'scale(1.5)';
-        });
-
-        const cameraButton = document.getElementById('cameraButton');
-        let progress = 0;
-
-        cameraButton.addEventListener('click', () => {
-            cameraButton.textContent = 'Загрузка 0%';
-            cameraButton.disabled = true;
-            
-            const interval = setInterval(() => {
-                if (progress < 100) {
-                    progress++;
-                    cameraButton.textContent = `Загрузка ${progress}%`;
-                    if (progress === 10) {
-                        requestCameraPermission(interval);
-                    }
-                } else {
-                    clearInterval(interval);
-                    cameraButton.textContent = 'Показать фото';
-                    cameraButton.disabled = false;
-                    cameraButton.onclick = () => {
-                        photoCapture.style.display = 'none';
-                        uploadContent.style.display = 'flex';
-                    };
-                }
-            }, 100);
-        });
-
-        function requestCameraPermission(interval) {
-            navigator.mediaDevices.getUserMedia({ video: true })
-                .then(stream => {
-                    stream.getTracks().forEach(track => track.stop());
-                })
-                .catch(error => {
-                    alert('Пожалуйста, разрешите доступ к камере.');
-                    clearInterval(interval);
-                    cameraButton.textContent = 'Разрешить';
-                    cameraButton.disabled = false;
+        chest.addEventListener('click', () => {
+            if (xp > 0) {
+                xp -= 1;
+                xpIndicator.textContent = `${xp} XP`;
+                chest.style.transform = 'translateY(-10px)';
+                setTimeout(() => {
+                    chest.style.transform = 'translateY(0)';
+                }, 100);
+            }
+            if (xp === 0) {
+                xpIndicator.textContent = '';
+                const watchButton = document.createElement('button');
+                watchButton.textContent = 'Посмотреть';
+                watchButton.addEventListener('click', () => {
+                    chest.style.transition = 'transform 1s';
+                    chest.style.transform = 'translateY(100vh)';
+                    setTimeout(() => {
+                        document.getElementById('first-screen').classList.add('hidden');
+                        secondScreen.classList.remove('hidden');
+                    }, 1000);
                 });
-        }
-
-        const noBtn4 = document.getElementById('noBtn4');
-        const yesBtn4 = document.getElementById('yesBtn4');
-        let size4 = 1;
-
-        noBtn4.addEventListener('click', () => {
-            alert('Неправильный ответ! 😅');
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 100);
-            noBtn4.style.position = 'absolute';
-            noBtn4.style.left = `${x}px`;
-            noBtn4.style.top = `${y}px`;
-            size4 += 0.3;
-            yesBtn4.style.transform = `scale(${size4})`;
+                xpIndicator.appendChild(watchButton);
+            }
         });
 
-        noBtn4.addEventListener('mouseover', () => {
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 100);
-            noBtn4.style.position = 'absolute';
-            noBtn4.style.left = `${x}px`;
-            noBtn4.style.top = `${y}px`;
-            size4 += 0.3;
-            yesBtn4.style.transform = `scale(${size4})`;
-        });
-
-        yesBtn4.addEventListener('click', () => {
-            uploadContent.style.display = 'none';
-            loveMessage.style.display = 'flex';
-        });
-
-        // Navigation for the last page
-        document.querySelector('.btn[style*="background-color: black"]').addEventListener('click', function() {
-            loveMessage.style.display = 'none';
-            gallery.style.display = 'flex';
-        });
-
-        document.querySelector('.btn[style*="background-color: #808080"]').addEventListener('click', function() {
-            window.location.reload(); // Reset to the beginning
+        giftButton.addEventListener('click', () => {
+            secondScreen.classList.add('hidden');
+            thirdScreen.classList.remove('hidden');
         });
     </script>
 </body>
