@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Сундук с XP</title>
     <style>
+        /* Основные стили */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             text-align: center;
-            background-color: #f4f4f4;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
             margin: 0;
             padding: 0;
             display: flex;
@@ -16,91 +17,152 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            -webkit-tap-highlight-color: transparent; /* Убирает подсветку при нажатии на Safari */
+            color: white;
+            -webkit-tap-highlight-color: transparent;
+            overflow: hidden;
+            position: relative;
         }
+
+        /* Параллакс-эффект (звезды) */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            animation: starsMove 50s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes starsMove {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-100%);
+            }
+        }
+
+        /* Сундук */
         .chest {
-            width: 100px;
+            width: 120px;
             cursor: pointer;
             margin-top: 20px;
-            transition: transform 0.1s;
-            -webkit-user-select: none; /* Запрет выделения изображения на iOS */
-            user-select: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
+            animation: float 3s ease-in-out infinite;
         }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .chest:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 1));
+        }
+
+        /* Индикатор XP */
         .xp-indicator {
             margin-top: 20px;
-            font-size: 24px;
-            -webkit-user-select: none; /* Запрет выделения текста на iOS */
-            user-select: none;
+            font-size: 28px;
+            font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
+
         .heart {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             margin-left: 10px;
+            filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8));
+            animation: pulse 1.5s infinite;
         }
-        .hidden {
-            display: none;
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
         }
-        .second-screen, .third-screen {
+
+        /* Кнопки */
+        .gift-button, .help-button {
             margin-top: 20px;
-            padding: 20px;
+            padding: 12px 24px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 25px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
         }
+
         .gift-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-            background-color: #4CAF50;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
             color: white;
-            border: none;
-            border-radius: 5px;
-            -webkit-appearance: none; /* Убирает стандартные стили кнопок в Safari */
-            appearance: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
-        button {
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            margin-top: 20px;
-            -webkit-appearance: none; /* Убирает стандартные стили кнопок в Safari */
-            appearance: none;
+
+        .gift-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.5s ease;
+            border-radius: 50%;
         }
+
+        .gift-button:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .gift-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+        }
+
         .help-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-            background-color: #007BFF;
+            background: linear-gradient(135deg, #007BFF, #0056b3);
             color: white;
-            border: none;
-            border-radius: 5px;
-            -webkit-appearance: none; /* Убирает стандартные стили кнопок в Safari */
-            appearance: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
-        @media (max-width: 600px) {
-            .chest {
-                width: 80px;
-            }
-            .xp-indicator {
-                font-size: 20px;
-            }
-            .gift-button, button, .help-button {
-                font-size: 16px;
-                padding: 8px 16px;
-            }
+
+        .help-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
         }
+
+        /* Анимация сердца */
         .heart-animation {
             position: absolute;
             width: 24px;
             height: 24px;
             animation: jumpAndFall 1s ease-out;
+            filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8));
         }
+
         @keyframes jumpAndFall {
             0% {
                 transform: translateY(0);
@@ -112,9 +174,102 @@
                 transform: translateY(100vh);
             }
         }
+
+        /* Анимация открытия сундука */
+        .chest-open {
+            animation: openChest 2s ease-in-out forwards;
+        }
+
+        @keyframes openChest {
+            0% {
+                transform: rotateX(0deg);
+            }
+            50% {
+                transform: rotateX(90deg);
+            }
+            100% {
+                transform: rotateX(0deg);
+            }
+        }
+
+        /* Свет из сундука */
+        .light {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255, 255, 0, 0.8), rgba(255, 255, 0, 0));
+            opacity: 0;
+            animation: lightEffect 2s ease-in-out forwards;
+        }
+
+        @keyframes lightEffect {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* Монеты */
+        .coin {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            animation: coinFall 1s ease-in-out forwards;
+            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.8));
+        }
+
+        @keyframes coinFall {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
+        /* Скрытые элементы */
+        .hidden {
+            display: none;
+        }
+
+        /* Второй и третий экраны */
+        .second-screen, .third-screen {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .third-screen {
+            max-width: 400px;
+            width: 90%;
+        }
+
+        /* Адаптация для мобильных устройств */
+        @media (max-width: 600px) {
+            .chest {
+                width: 100px;
+            }
+            .xp-indicator {
+                font-size: 24px;
+            }
+            .gift-button, .help-button {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="stars"></div> <!-- Параллакс-эффект -->
     <div id="first-screen">
         <img src="https://art.pixilart.com/ba26544e0636db8.png" alt="Сундук" class="chest" id="chest">
         <div class="xp-indicator" id="xp-indicator">
@@ -124,7 +279,7 @@
     </div>
 
     <div id="second-screen" class="hidden">
-        <div class="second-screen">
+      <div class="second-screen">
             <p>С днем рождения тигрица! Может я и сделал хуйни за этот год но ты все так жа дорога мне, тебе уже 17 а такое ощущение что мы еше сидим на есл классе и я смеюсь с твоих шуток...</p>
             <button class="gift-button" id="gift-button">Получить подарок</button>
         </div>
@@ -180,6 +335,7 @@
                 xpIndicator.textContent = '';
                 const watchButton = document.createElement('button');
                 watchButton.textContent = 'Посмотреть';
+                watchButton.classList.add('gift-button');
                 watchButton.addEventListener('click', () => {
                     chest.style.transition = 'transform 1s';
                     chest.style.transform = 'translateY(100vh)';
