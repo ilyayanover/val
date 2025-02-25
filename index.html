@@ -16,20 +16,20 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            -webkit-tap-highlight-color: transparent; /* Убирает подсветку при нажатии на Safari */
+            -webkit-tap-highlight-color: transparent; 
         }
         .chest {
             width: 100px;
             cursor: pointer;
             margin-top: 20px;
             transition: transform 0.1s;
-            -webkit-user-select: none; /* Запрет выделения изображения на iOS */
+            -webkit-user-select: none; 
             user-select: none;
         }
         .xp-indicator {
             margin-top: 20px;
             font-size: 24px;
-            -webkit-user-select: none; /* Запрет выделения текста на iOS */
+            -webkit-user-select: none; 
             user-select: none;
             display: flex;
             align-items: center;
@@ -56,7 +56,7 @@
             color: white;
             border: none;
             border-radius: 5px;
-            -webkit-appearance: none; /* Убирает стандартные стили кнопок в Safari */
+            -webkit-appearance: none; 
             appearance: none;
         }
         button {
@@ -68,7 +68,7 @@
             border: none;
             border-radius: 5px;
             margin-top: 20px;
-            -webkit-appearance: none; /* Убирает стандартные стили кнопок в Safari */
+            -webkit-appearance: none; 
             appearance: none;
         }
         @media (max-width: 600px) {
@@ -113,17 +113,18 @@
 
     <div id="second-screen" class="hidden">
         <div class="second-screen">
-            <p>Поздравляем! Вы открыли сундук!</p>
+            <p>С днем рождения тигрица! Может я и сделал хуйни за этот год но ты все так жа дорога мне, тебе уже 17 а такое ощущение что мы еше сидим на есл классе и я смеюсь с твоих шуток...</p>
             <button class="gift-button" id="gift-button">Получить подарок</button>
         </div>
     </div>
 
     <div id="third-screen" class="hidden">
-        <p>Ваш подарок: [Текст подарка]</p>
+        <p>Твой подарок: код</p>
     </div>
 
     <script>
         let xp = 100;
+        let heartSide = 'left'; // Переменная для чередования сторон
         const chest = document.getElementById('chest');
         const xpIndicator = document.getElementById('xp-indicator');
         const secondScreen = document.getElementById('second-screen');
@@ -143,7 +144,16 @@
                 const heart = document.createElement('img');
                 heart.src = 'https://shop.minecraft.net/cdn/shop/products/MC-VAL-ALT-100011-RO_1080x.png';
                 heart.classList.add('heart-animation');
-                heart.style.left = `${chest.offsetLeft + chest.offsetWidth / 2 - 12}px`;
+
+                // Определяем позицию сердца (слева или справа)
+                if (heartSide === 'left') {
+                    heart.style.left = `${chest.offsetLeft - 30}px`; // Смещение влево
+                    heartSide = 'right'; // Следующее сердце будет справа
+                } else {
+                    heart.style.left = `${chest.offsetLeft + chest.offsetWidth + 10}px`; // Смещение вправо
+                    heartSide = 'left'; // Следующее сердце будет слева
+                }
+
                 heart.style.top = `${chest.offsetTop}px`;
                 document.body.appendChild(heart);
 
