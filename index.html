@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <!-- Настройка viewport для предотвращения увеличения масштаба -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Сундук с XP</title>
     <style>
@@ -266,6 +267,11 @@
                 padding: 10px 20px;
             }
         }
+
+        /* Предотвращение увеличения масштаба на iOS */
+        input, textarea, select, button {
+            font-size: 16px; /* Убедитесь, что размер шума не меньше 16px */
+        }
     </style>
 </head>
 <body>
@@ -279,14 +285,14 @@
     </div>
 
     <div id="second-screen" class="hidden">
-      <div class="second-screen">
-            <p>С днем рождения тигрица! Может я и сделал хуйни за этот год но ты все так жа дорога мне, тебе уже 17 а такое ощущение что мы еше сидим на есл классе и я смеюсь с твоих шуток...</p>
+        <div class="second-screen">
+            <p>Поздравляем! Вы открыли сундук!</p>
             <button class="gift-button" id="gift-button">Получить подарок</button>
         </div>
     </div>
 
     <div id="third-screen" class="hidden">
-        <p>Твой подарок: код</p>
+        <p>Ваш подарок: [Текст подарка]</p>
         <button class="help-button" id="help-button">Я не знаю как ввести код</button>
     </div>
 
