@@ -2,7 +2,6 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <!-- Настройка viewport для предотвращения увеличения масштаба -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Сундук с XP</title>
     <style>
@@ -69,6 +68,16 @@
             filter: drop-shadow(0 0 20px rgba(255, 215, 0, 1));
         }
 
+        /* Анимация подпрыгивания */
+        @keyframes jump {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
         /* Индикатор XP */
         .xp-indicator {
             margin-top: 20px;
@@ -102,135 +111,39 @@
             }
         }
 
-        /* Кнопки */
-        .gift-button, .help-button {
+        /* Поле ввода пароля */
+        .password-input {
             margin-top: 20px;
-            padding: 12px 24px;
-            font-size: 18px;
-            cursor: pointer;
-            border: none;
-            border-radius: 25px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            font-weight: bold;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .gift-button {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #4CAF50;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.5);
             color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            outline: none;
+            text-align: center;
+            width: 150px;
         }
 
-        .gift-button::before {
-            content: '';
-            position: absolute;
+        .password-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Всплывающее окно */
+        .error-popup {
+            position: fixed;
             top: 50%;
             left: 50%;
-            width: 300%;
-            height: 300%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
-            transform: translate(-50%, -50%) scale(0);
-            transition: transform 0.5s ease;
-            border-radius: 50%;
-        }
-
-        .gift-button:hover::before {
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .gift-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
-        }
-
-        .help-button {
-            background: linear-gradient(135deg, #007BFF, #0056b3);
-            color: white;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 0, 0, 0.9);
+            padding: 20px;
+            border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-
-        .help-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
-        }
-
-        /* Анимация сердца */
-        .heart-animation {
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            animation: jumpAndFall 1s ease-out;
-            filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8));
-        }
-
-        @keyframes jumpAndFall {
-            0% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-50px);
-            }
-            100% {
-                transform: translateY(100vh);
-            }
-        }
-
-        /* Анимация открытия сундука */
-        .chest-open {
-            animation: openChest 2s ease-in-out forwards;
-        }
-
-        @keyframes openChest {
-            0% {
-                transform: rotateX(0deg);
-            }
-            50% {
-                transform: rotateX(90deg);
-            }
-            100% {
-                transform: rotateX(0deg);
-            }
-        }
-
-        /* Свет из сундука */
-        .light {
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, rgba(255, 255, 0, 0.8), rgba(255, 255, 0, 0));
-            opacity: 0;
-            animation: lightEffect 2s ease-in-out forwards;
-        }
-
-        @keyframes lightEffect {
-            0% {
-                opacity: 0;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-            }
-        }
-
-        /* Монеты */
-        .coin {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            animation: coinFall 1s ease-in-out forwards;
-            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.8));
-        }
-
-        @keyframes coinFall {
-            0% {
-                transform: translateY(0);
-            }
-            100% {
-                transform: translateY(100vh);
-            }
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            z-index: 1000;
+            display: none;
         }
 
         /* Скрытые элементы */
@@ -262,9 +175,9 @@
             .xp-indicator {
                 font-size: 24px;
             }
-            .gift-button, .help-button {
-                font-size: 16px;
-                padding: 10px 20px;
+            .password-input {
+                font-size: 14px;
+                width: 120px;
             }
         }
 
@@ -282,6 +195,7 @@
             <span>100 XP</span>
             <img src="https://shop.minecraft.net/cdn/shop/products/MC-VAL-ALT-100011-RO_1080x.png" alt="Сердце" class="heart">
         </div>
+        <input type="text" class="password-input" id="password-input" placeholder="Введите пароль">
     </div>
 
     <div id="second-screen" class="hidden">
@@ -296,6 +210,9 @@
         <button class="help-button" id="help-button">Я не знаю как ввести код</button>
     </div>
 
+    <!-- Всплывающее окно с ошибкой -->
+    <div class="error-popup" id="error-popup">Ошибка, вы долбаеб</div>
+
     <script>
         let xp = 100;
         let heartSide = 'left'; // Переменная для чередования сторон
@@ -305,6 +222,45 @@
         const thirdScreen = document.getElementById('third-screen');
         const giftButton = document.getElementById('gift-button');
         const helpButton = document.getElementById('help-button');
+        const passwordInput = document.getElementById('password-input');
+        const errorPopup = document.getElementById('error-popup');
+
+        // Обработка ввода пароля
+        passwordInput.addEventListener('input', (e) => {
+            if (e.target.value === '6696') {
+                xp = 0;
+                xpIndicator.querySelector('span').textContent = `${xp} XP`;
+                passwordInput.classList.add('hidden'); // Скрываем поле ввода пароля
+
+                // Анимация подпрыгивания сундука
+                chest.style.animation = 'jump 1s ease'; // Медленная анимация
+                setTimeout(() => {
+                    chest.style.animation = ''; // Сбрасываем анимацию
+                    // Меняем изображение сундука
+                    chest.src = 'https://drive.google.com/uc?export=view&id=1anJiK9-3oxEH7yN5YZXqxqNURyYCYfwF';
+                }, 1000);
+
+                // Показываем кнопку "Посмотреть"
+                const watchButton = document.createElement('button');
+                watchButton.textContent = 'Посмотреть';
+                watchButton.classList.add('gift-button');
+                watchButton.addEventListener('click', () => {
+                    chest.style.transition = 'transform 1s';
+                    chest.style.transform = 'translateY(100vh)';
+                    setTimeout(() => {
+                        document.getElementById('first-screen').classList.add('hidden');
+                        secondScreen.classList.remove('hidden');
+                    }, 1000);
+                });
+                xpIndicator.appendChild(watchButton);
+            } else if (e.target.value.length === 4 && e.target.value !== '6696') {
+                // Показываем всплывающее окно с ошибкой
+                errorPopup.style.display = 'block';
+                setTimeout(() => {
+                    errorPopup.style.display = 'none';
+                }, 2000); // Скрываем окно через 2 секунды
+            }
+        });
 
         chest.addEventListener('click', () => {
             if (xp > 0) {
@@ -336,21 +292,6 @@
                 setTimeout(() => {
                     heart.remove();
                 }, 1000);
-            }
-            if (xp === 0) {
-                xpIndicator.textContent = '';
-                const watchButton = document.createElement('button');
-                watchButton.textContent = 'Посмотреть';
-                watchButton.classList.add('gift-button');
-                watchButton.addEventListener('click', () => {
-                    chest.style.transition = 'transform 1s';
-                    chest.style.transform = 'translateY(100vh)';
-                    setTimeout(() => {
-                        document.getElementById('first-screen').classList.add('hidden');
-                        secondScreen.classList.remove('hidden');
-                    }, 1000);
-                });
-                xpIndicator.appendChild(watchButton);
             }
         });
 
