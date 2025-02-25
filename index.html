@@ -16,20 +16,20 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            -webkit-tap-highlight-color: transparent; 
+            -webkit-tap-highlight-color: transparent; /* Убирает подсветку при нажатии на Safari */
         }
         .chest {
             width: 100px;
             cursor: pointer;
             margin-top: 20px;
             transition: transform 0.1s;
-            -webkit-user-select: none; 
+            -webkit-user-select: none; /* Запрет выделения изображения на iOS */
             user-select: none;
         }
         .xp-indicator {
             margin-top: 20px;
             font-size: 24px;
-            -webkit-user-select: none; 
+            -webkit-user-select: none; /* Запрет выделения текста на iOS */
             user-select: none;
             display: flex;
             align-items: center;
@@ -56,7 +56,7 @@
             color: white;
             border: none;
             border-radius: 5px;
-            -webkit-appearance: none; 
+            -webkit-appearance: none; /* Убирает стандартные стили кнопок в Safari */
             appearance: none;
         }
         button {
@@ -68,7 +68,19 @@
             border: none;
             border-radius: 5px;
             margin-top: 20px;
-            -webkit-appearance: none; 
+            -webkit-appearance: none; /* Убирает стандартные стили кнопок в Safari */
+            appearance: none;
+        }
+        .help-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            -webkit-appearance: none; /* Убирает стандартные стили кнопок в Safari */
             appearance: none;
         }
         @media (max-width: 600px) {
@@ -78,7 +90,7 @@
             .xp-indicator {
                 font-size: 20px;
             }
-            .gift-button, button {
+            .gift-button, button, .help-button {
                 font-size: 16px;
                 padding: 8px 16px;
             }
@@ -120,6 +132,7 @@
 
     <div id="third-screen" class="hidden">
         <p>Твой подарок: код</p>
+        <button class="help-button" id="help-button">Я не знаю как ввести код</button>
     </div>
 
     <script>
@@ -130,6 +143,7 @@
         const secondScreen = document.getElementById('second-screen');
         const thirdScreen = document.getElementById('third-screen');
         const giftButton = document.getElementById('gift-button');
+        const helpButton = document.getElementById('help-button');
 
         chest.addEventListener('click', () => {
             if (xp > 0) {
@@ -181,6 +195,10 @@
         giftButton.addEventListener('click', () => {
             secondScreen.classList.add('hidden');
             thirdScreen.classList.remove('hidden');
+        });
+
+        helpButton.addEventListener('click', () => {
+            window.location.href = 'https://www.youtube.com/watch?v=-H2yS6opTis';
         });
     </script>
 </body>
