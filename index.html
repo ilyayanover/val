@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Сундук с XP</title>
     <style>
-        /* Основные стили */
+        /* Основные стили для всей страницы */
         body {
             font-family: 'Arial', sans-serif;
             text-align: center;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            background: linear-gradient(135deg, #1e3c72, #2a5298); /* Красивый градиентный фон */
             margin: 0;
             padding: 0;
             display: flex;
@@ -18,21 +18,21 @@
             justify-content: center;
             min-height: 100vh;
             color: white;
-            -webkit-tap-highlight-color: transparent;
+            -webkit-tap-highlight-color: transparent; /* Убираю подсветку при нажатии на мобильных устройствах */
             overflow: hidden;
             position: relative;
         }
 
-        /* Параллакс-эффект (звезды) */
+        /* Звездный фон для параллакс-эффекта */
         .stars {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/stardust.png');
-            animation: starsMove 50s linear infinite;
-            z-index: -1;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png'); /* Текстура звезд */
+            animation: starsMove 50s linear infinite; /* Анимация движения звезд */
+            z-index: -1; /* Чтобы звезды были на заднем плане */
         }
 
         @keyframes starsMove {
@@ -44,14 +44,14 @@
             }
         }
 
-        /* Сундук */
+        /* Стили для сундука */
         .chest {
             width: 120px;
             cursor: pointer;
             margin-top: 20px;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
-            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
-            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7)); /* Тень для сундука */
+            animation: float 3s ease-in-out infinite; /* Анимация плавного плавания */
         }
 
         @keyframes float {
@@ -64,8 +64,8 @@
         }
 
         .chest:hover {
-            transform: scale(1.1);
-            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 1));
+            transform: scale(1.1); /* Увеличиваю сундук при наведении */
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 1)); /* Усиливаю тень */
         }
 
         /* Анимация улетания сундука */
@@ -74,7 +74,7 @@
                 transform: translateY(0);
             }
             100% {
-                transform: translateY(-100vh) rotate(360deg);
+                transform: translateY(-100vh) rotate(360deg); /* Сундук улетает вверх с вращением */
             }
         }
 
@@ -86,20 +86,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
             padding: 10px 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Тень для индикатора */
+            backdrop-filter: blur(5px); /* Размытие фона */
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Тонкая рамка */
         }
 
         .heart {
             width: 28px;
             height: 28px;
             margin-left: 10px;
-            filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8));
-            animation: pulse 1.5s infinite;
+            filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8)); /* Тень для сердца */
+            animation: pulse 1.5s infinite; /* Анимация пульсации */
         }
 
         @keyframes pulse {
@@ -107,7 +107,26 @@
                 transform: scale(1);
             }
             50% {
-                transform: scale(1.1);
+                transform: scale(1.1); /* Сердце увеличивается и уменьшается */
+            }
+        }
+
+        /* Анимация вылетающего сердца */
+        .heart-animation {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            animation: heartFly 1.5s ease-out forwards; /* Анимация полета сердца */
+        }
+
+        @keyframes heartFly {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1); /* Начальное положение */
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(0.5); /* Сердце улетает вверх и уменьшается */
             }
         }
 
@@ -116,9 +135,9 @@
             margin-top: 20px;
             padding: 10px;
             font-size: 16px;
-            border: 2px solid #4CAF50;
+            border: 2px solid #4CAF50; /* Зеленая рамка */
             border-radius: 10px;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
             color: white;
             outline: none;
             text-align: center;
@@ -126,41 +145,46 @@
         }
 
         .password-input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.7); /* Полупрозрачный текст-подсказка */
         }
 
-        /* Кнопка "Посмотреть" */
-        .watch-button {
+        /* Кнопки */
+        .gift-button, .help-button {
             margin-top: 20px;
             padding: 10px 20px;
             font-size: 16px;
-            background: #4CAF50;
+            background: #4CAF50; /* Зеленый фон */
             color: white;
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            display: none; /* Скрыта по умолчанию */
+            transition: background 0.3s ease, transform 0.2s ease; /* Плавные переходы */
         }
 
-        .watch-button:hover {
-            background: #45a049;
+        .gift-button:hover, .help-button:hover {
+            background: #45a049; /* Темнее при наведении */
+            transform: scale(1.05); /* Увеличиваю кнопку */
         }
 
-        /* Всплывающее окно */
+        .gift-button:active, .help-button:active {
+            transform: scale(0.95); /* Уменьшаю кнопку при нажатии */
+        }
+
+        /* Всплывающее окно с ошибкой */
         .error-popup {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255, 0, 0, 0.9);
+            background: rgba(255, 0, 0, 0.9); /* Красный фон */
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Тень */
             font-size: 18px;
             font-weight: bold;
             color: white;
             z-index: 1000;
-            display: none;
+            display: none; /* Скрываю по умолчанию */
         }
 
         /* Скрытые элементы */
@@ -172,27 +196,27 @@
         .second-screen, .third-screen {
             margin-top: 20px;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.7); /* Полупрозрачный фон */
             border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Тень */
+            backdrop-filter: blur(5px); /* Размытие фона */
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Тонкая рамка */
             width: 90%;
             max-width: 400px;
         }
 
         /* Письмо на третьем экране */
         .letter {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.9); /* Белый фон с прозрачностью */
             color: #333;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Тень */
             max-height: 300px;
-            overflow-y: auto;
+            overflow-y: auto; /* Прокрутка, если текст не помещается */
             text-align: left;
             line-height: 1.6;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1); /* Тонкая рамка */
         }
 
         .letter p {
@@ -202,28 +226,28 @@
         /* Адаптация для мобильных устройств */
         @media (max-width: 600px) {
             .chest {
-                width: 100px;
+                width: 100px; /* Уменьшаю сундук для мобильных */
             }
             .xp-indicator {
-                font-size: 24px;
+                font-size: 24px; /* Уменьшаю текст */
             }
             .password-input {
                 font-size: 14px;
-                width: 120px;
+                width: 120px; /* Уменьшаю поле ввода */
             }
             .letter {
-                max-height: 200px;
+                max-height: 200px; /* Уменьшаю высоту письма */
             }
         }
 
         /* Предотвращение увеличения масштаба на iOS */
         input, textarea, select, button {
-            font-size: 16px; /* Убедитесь, что размер шума не меньше 16px */
+            font-size: 16px; /* Убеждаюсь, что размер шрифта не меньше 16px */
         }
     </style>
 </head>
 <body>
-    <div class="stars"></div> <!-- Параллакс-эффект -->
+    <div class="stars"></div> <!-- Звездный фон -->
     <div id="first-screen">
         <img src="https://art.pixilart.com/ba26544e0636db8.png" alt="Сундук" class="chest" id="chest">
         <div class="xp-indicator" id="xp-indicator">
@@ -231,27 +255,25 @@
             <img src="https://shop.minecraft.net/cdn/shop/products/MC-VAL-ALT-100011-RO_1080x.png" alt="Сердце" class="heart">
         </div>
         <input type="text" class="password-input" id="password-input" placeholder="Введите пароль">
-        <button class="watch-button" id="watch-button">Посмотреть</button> <!-- Новая кнопка -->
     </div>
 
     <div id="second-screen" class="hidden">
         <div class="second-screen">
-            <p>Поздравляем! Вы открыли сундук!</p>
-            <button class="gift-button" id="gift-button">Получить подарок</button>
+            <p>Поздравляю, ты открыла сундук!</p> <!-- Обновил текст -->
+            <button class="gift-button" id="gift-button">Заглянуть внутрь</button> <!-- Обновил текст кнопки -->
         </div>
     </div>
 
     <div id="third-screen" class="hidden">
         <div class="third-screen">
             <div class="letter">
-                <p>Дорогой друг,</p>
-                <p>Поздравляем тебя с открытием сундука! Ты проявил настойчивость и смекалку, и теперь твой подарок ждет тебя.</p>
-                <p>В этом письме ты найдешь уникальный код, который можно использовать для получения специального бонуса. Вот он:</p>
+                <p>Привет тигрица, с днем рождения! 🎉</p>
+                <p>Тебе уже 17, а такое ощущение, что только вчера мы сидели в классе ESL и смеялись. Мы через многое прошли вместе и повстречали как хорошее, так и плохое. Желаю тебе только хорошего!</p>
+                <p>by Илюшенция ❤️</p>
+                <p><strong>Твоя Gift card в Playstation Store:</strong></p>
                 <p><strong>Код: XP-6696-GIFT</strong></p>
-                <p>Спасибо, что играешь с нами! Желаем тебе удачи и новых достижений.</p>
-                <p>С уважением,<br>Команда Сундука с XP</p>
             </div>
-            <button class="help-button" id="help-button">Я не знаю как ввести код</button>
+            <button class="help-button" id="help-button">Я не знаю куда вводить</button>
         </div>
     </div>
 
@@ -260,10 +282,8 @@
 
     <script>
         let xp = 100;
-        let heartSide = 'left'; // Переменная для чередования сторон
         const chest = document.getElementById('chest');
         const xpIndicator = document.getElementById('xp-indicator');
-        const watchButton = document.getElementById('watch-button'); // Новая кнопка
         const secondScreen = document.getElementById('second-screen');
         const thirdScreen = document.getElementById('third-screen');
         const giftButton = document.getElementById('gift-button');
@@ -276,68 +296,61 @@
             if (e.target.value === '6696') {
                 xp = 0;
                 xpIndicator.querySelector('span').textContent = `${xp} XP`;
-                passwordInput.classList.add('hidden'); // Скрываем поле ввода пароля
-                watchButton.style.display = 'block'; // Показываем кнопку "Посмотреть"
+                passwordInput.classList.add('hidden'); // Скрываю поле ввода пароля
+
+                // Анимация улетания сундука
+                chest.style.animation = 'flyAway 2s ease forwards';
+                setTimeout(() => {
+                    chest.style.display = 'none'; // Скрываю сундук после анимации
+                    document.getElementById('first-screen').classList.add('hidden');
+                    secondScreen.classList.remove('hidden'); // Показываю второй экран
+                }, 2000);
             } else if (e.target.value.length === 4 && e.target.value !== '6696') {
-                // Показываем всплывающее окно с ошибкой
+                // Показываю всплывающее окно с ошибкой
                 errorPopup.style.display = 'block';
                 setTimeout(() => {
                     errorPopup.style.display = 'none';
-                }, 2000); // Скрываем окно через 2 секунды
+                }, 2000); // Скрываю окно через 2 секунды
             }
         });
 
-        // Обработка нажатия кнопки "Посмотреть"
-        watchButton.addEventListener('click', () => {
-            chest.style.animation = 'flyAway 2s ease forwards'; // Анимация улетания сундука
-            setTimeout(() => {
-                chest.style.display = 'none'; // Скрываем сундук после анимации
-                document.getElementById('first-screen').classList.add('hidden');
-                secondScreen.classList.remove('hidden');
-            }, 2000);
-        });
-
+        // Обработка клика по сундуку
         chest.addEventListener('click', () => {
             if (xp > 0) {
                 xp -= 1;
                 xpIndicator.querySelector('span').textContent = `${xp} XP`;
-                chest.style.transform = 'translateY(-10px)';
-                setTimeout(() => {
-                    chest.style.transform = 'translateY(0)';
-                }, 100);
 
-                // Создаем анимацию сердца
+                // Создаю анимацию сердца
                 const heart = document.createElement('img');
                 heart.src = 'https://shop.minecraft.net/cdn/shop/products/MC-VAL-ALT-100011-RO_1080x.png';
                 heart.classList.add('heart-animation');
 
-                // Определяем позицию сердца (слева или справа)
-                if (heartSide === 'left') {
-                    heart.style.left = `${chest.offsetLeft - 30}px`; // Смещение влево
-                    heartSide = 'right'; // Следующее сердце будет справа
-                } else {
-                    heart.style.left = `${chest.offsetLeft + chest.offsetWidth + 10}px`; // Смещение вправо
-                    heartSide = 'left'; // Следующее сердце будет слева
-                }
+                // Позиционирую сердце случайным образом вокруг сундука
+                const chestRect = chest.getBoundingClientRect();
+                const offsetX = (Math.random() - 0.5) * 50; // Случайное смещение по X
+                const offsetY = (Math.random() - 0.5) * 50; // Случайное смещение по Y
+                heart.style.left = `${chestRect.left + chestRect.width / 2 + offsetX}px`;
+                heart.style.top = `${chestRect.top + chestRect.height / 2 + offsetY}px`;
 
-                heart.style.top = `${chest.offsetTop}px`;
                 document.body.appendChild(heart);
 
-                // Удаляем сердце после завершения анимации
+                // Удаляю сердце после завершения анимации
                 setTimeout(() => {
                     heart.remove();
-                }, 1000);
+                }, 1500);
             }
         });
 
+        // Обработка нажатия кнопки "Заглянуть внутрь"
         giftButton.addEventListener('click', () => {
             secondScreen.classList.add('hidden');
             thirdScreen.classList.remove('hidden');
         });
 
+        // Обработка нажатия кнопки "Я не знаю куда вводить"
         helpButton.addEventListener('click', () => {
             window.location.href = 'https://www.youtube.com/watch?v=-H2yS6opTis';
         });
     </script>
 </body>
-</html>
+</html> 
