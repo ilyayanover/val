@@ -68,13 +68,13 @@
             filter: drop-shadow(0 0 20px rgba(255, 215, 0, 1));
         }
 
-        /* Анимация подпрыгивания */
-        @keyframes jump {
-            0%, 100% {
+        /* Анимация улетания сундука */
+        @keyframes flyAway {
+            0% {
                 transform: translateY(0);
             }
-            50% {
-                transform: translateY(-20px);
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
             }
         }
 
@@ -129,6 +129,23 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
+        /* Кнопка "Посмотреть" */
+        .watch-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: none; /* Скрыта по умолчанию */
+        }
+
+        .watch-button:hover {
+            background: #45a049;
+        }
+
         /* Всплывающее окно */
         .error-popup {
             position: fixed;
@@ -160,11 +177,26 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 90%;
+            max-width: 400px;
         }
 
-        .third-screen {
-            max-width: 400px;
-            width: 90%;
+        /* Письмо на третьем экране */
+        .letter {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            max-height: 300px;
+            overflow-y: auto;
+            text-align: left;
+            line-height: 1.6;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .letter p {
+            margin: 0 0 10px;
         }
 
         /* Адаптация для мобильных устройств */
@@ -178,6 +210,9 @@
             .password-input {
                 font-size: 14px;
                 width: 120px;
+            }
+            .letter {
+                max-height: 200px;
             }
         }
 
@@ -196,6 +231,7 @@
             <img src="https://shop.minecraft.net/cdn/shop/products/MC-VAL-ALT-100011-RO_1080x.png" alt="Сердце" class="heart">
         </div>
         <input type="text" class="password-input" id="password-input" placeholder="Введите пароль">
+        <button class="watch-button" id="watch-button">Посмотреть</button> <!-- Новая кнопка -->
     </div>
 
     <div id="second-screen" class="hidden">
@@ -206,8 +242,17 @@
     </div>
 
     <div id="third-screen" class="hidden">
-        <p>Ваш подарок: [Текст подарка]</p>
-        <button class="help-button" id="help-button">Я не знаю как ввести код</button>
+        <div class="third-screen">
+            <div class="letter">
+                <p>Дорогой друг,</p>
+                <p>Поздравляем тебя с открытием сундука! Ты проявил настойчивость и смекалку, и теперь твой подарок ждет тебя.</p>
+                <p>В этом письме ты найдешь уникальный код, который можно использовать для получения специального бонуса. Вот он:</p>
+                <p><strong>Код: XP-6696-GIFT</strong></p>
+                <p>Спасибо, что играешь с нами! Желаем тебе удачи и новых достижений.</p>
+                <p>С уважением,<br>Команда Сундука с XP</p>
+            </div>
+            <button class="help-button" id="help-button">Я не знаю как ввести код</button>
+        </div>
     </div>
 
     <!-- Всплывающее окно с ошибкой -->
@@ -218,6 +263,7 @@
         let heartSide = 'left'; // Переменная для чередования сторон
         const chest = document.getElementById('chest');
         const xpIndicator = document.getElementById('xp-indicator');
+        const watchButton = document.getElementById('watch-button'); // Новая кнопка
         const secondScreen = document.getElementById('second-screen');
         const thirdScreen = document.getElementById('third-screen');
         const giftButton = document.getElementById('gift-button');
@@ -231,28 +277,7 @@
                 xp = 0;
                 xpIndicator.querySelector('span').textContent = `${xp} XP`;
                 passwordInput.classList.add('hidden'); // Скрываем поле ввода пароля
-
-                // Анимация подпрыгивания сундука
-                chest.style.animation = 'jump 1s ease'; // Медленная анимация
-                setTimeout(() => {
-                    chest.style.animation = ''; // Сбрасываем анимацию
-                    // Меняем изображение сундука
-                    chest.src = 'https://drive.google.com/uc?export=view&id=1anJiK9-3oxEH7yN5YZXqxqNURyYCYfwF';
-                }, 1000);
-
-                // Показываем кнопку "Посмотреть"
-                const watchButton = document.createElement('button');
-                watchButton.textContent = 'Посмотреть';
-                watchButton.classList.add('gift-button');
-                watchButton.addEventListener('click', () => {
-                    chest.style.transition = 'transform 1s';
-                    chest.style.transform = 'translateY(100vh)';
-                    setTimeout(() => {
-                        document.getElementById('first-screen').classList.add('hidden');
-                        secondScreen.classList.remove('hidden');
-                    }, 1000);
-                });
-                xpIndicator.appendChild(watchButton);
+                watchButton.style.display = 'block'; // Показываем кнопку "Посмотреть"
             } else if (e.target.value.length === 4 && e.target.value !== '6696') {
                 // Показываем всплывающее окно с ошибкой
                 errorPopup.style.display = 'block';
@@ -260,6 +285,16 @@
                     errorPopup.style.display = 'none';
                 }, 2000); // Скрываем окно через 2 секунды
             }
+        });
+
+        // Обработка нажатия кнопки "Посмотреть"
+        watchButton.addEventListener('click', () => {
+            chest.style.animation = 'flyAway 2s ease forwards'; // Анимация улетания сундука
+            setTimeout(() => {
+                chest.style.display = 'none'; // Скрываем сундук после анимации
+                document.getElementById('first-screen').classList.add('hidden');
+                secondScreen.classList.remove('hidden');
+            }, 2000);
         });
 
         chest.addEventListener('click', () => {
